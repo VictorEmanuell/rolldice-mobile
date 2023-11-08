@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "rpjas",
-    "slug": "rpjas",
+    "name": "rolldice",
+    "slug": "rolldice",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
