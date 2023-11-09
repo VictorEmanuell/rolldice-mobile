@@ -141,7 +141,7 @@ export function SignIn({ navigation }) {
             </TouchableOpacity>
 
             <View style={styles.containerButtonLogin}>
-              <Button label="ENTRAR" style={{ alignSelf: "flex-end" }} />
+              <Button label="ENTRAR" style={{ alignSelf: "flex-end" }} onPress={() => navigation.navigate('Main')} />
             </View>
           </View>
         </TouchableWithoutFeedback>

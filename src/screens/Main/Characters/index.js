@@ -1,12 +1,15 @@
-import React from 'react';
-import { View } from 'react-native';
+import React from "react";
+import { View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { styles } from './styles';
+import { styles } from "./styles";
+
+import { Header } from "../../../components/Header";
 
 export function Characters() {
   return (
-    <View style={styles.container}>
-
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Header title="Personagem" />
+    </SafeAreaView>
   );
 }
