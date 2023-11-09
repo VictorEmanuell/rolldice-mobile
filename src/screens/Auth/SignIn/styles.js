@@ -25,7 +25,6 @@ export const styles = StyleSheet.create({
     fontFamily: Fonts.header,
     fontSize: 30,
     color: "white",
-    paddingVertical: 20,
   },
   containerInputs: {
     alignItems: "center",

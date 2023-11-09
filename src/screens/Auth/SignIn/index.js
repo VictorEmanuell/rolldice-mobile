@@ -52,13 +52,19 @@ export function SignIn({ navigation }) {
   // Animations
 
   const logoFade = useSharedValue(150);
+  const textDecrease = useSharedValue(20);
+  const textSize = useSharedValue(30);
 
   const logoFadeOut = () => {
     logoFade.value = withTiming(0, { duration: 350 });
+    textDecrease.value = withTiming(8, { duration: 350 });
+    textSize.value = withTiming(25, { duration: 350 });
   };
 
   const logoFadeIn = () => {
     logoFade.value = withTiming(150, { duration: 500 });
+    textDecrease.value = withTiming(20, { duration: 500 });
+    textSize.value = withTiming(30, { duration: 500 });
   };
 
   return (
@@ -97,7 +103,20 @@ export function SignIn({ navigation }) {
                 />
               </Animated.View>
 
-              <Text style={styles.textTitle}>ROLLDICE</Text>
+              <Animated.Text
+                style={[
+                  styles.textTitle,
+                  useAnimatedStyle(() => {
+                    "worklet";
+                    return {
+                      paddingVertical: textDecrease.value,
+                      fontSize: textSize.value,
+                    };
+                  }),
+                ]}
+              >
+                ROLLDICE
+              </Animated.Text>
             </View>
 
             <View style={styles.containerInputs}>

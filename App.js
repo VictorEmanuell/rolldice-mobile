@@ -12,12 +12,12 @@ import {
   Poppins_800ExtraBold,
   Poppins_800ExtraBold_Italic,
 } from "@expo-google-fonts/poppins";
-import * as NavigationBar from "expo-navigation-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import * as NavigationBar from "expo-navigation-bar";
 
 import Colors from "./src/assets/Colors";
 
-import Routes from "./src/screens/routes";
+import Routes from "./src/routes/routes";
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
