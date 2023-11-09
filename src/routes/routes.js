@@ -20,7 +20,7 @@ export default function Routes() {
   return (
     <NavigationContainer theme={theme}>
       <Navigator
-        initialRouteName="Auth"
+        initialRouteName="Main"
         screenOptions={{
           headerShown: false,
           statusBarAnimation: "fade",
