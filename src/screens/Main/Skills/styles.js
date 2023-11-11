@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     marginVertical: 20,
     overflow: "hidden",
     alignItems: "center",
+    elevation: 8
   },
   searchInputIcon: {
     transform: [{ translateX: 0 }],
@@ -32,7 +33,7 @@ export const styles = StyleSheet.create({
   },
   flatList: {
     width: "100%",
-    alignItems: "center",
-    backgroundColor: 'white'
+    gap: 20,
+    paddingBottom: '25%'
   },
 });

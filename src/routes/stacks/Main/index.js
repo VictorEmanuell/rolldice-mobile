@@ -27,7 +27,7 @@ export function Main() {
   return (
     <Navigator
       backBehavior="none"
-      initialRouteName="Characters"
+      initialRouteName="Skills"
       screenOptions={({ route }) => ({
         lazy: false,
         headerShown: false,
