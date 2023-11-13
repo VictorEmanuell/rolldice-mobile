@@ -1,5 +1,11 @@
-import { useRef, useState } from "react";
-import { View, Text, TouchableOpacity, Modal } from "react-native";
+import { useRef, useState, useEffect } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
+
 import Colors from "../../assets/Colors";
 
 import { styles } from "./styles";
@@ -8,6 +14,7 @@ import { ImageView } from "../ImageView";
 import { WheelPicker } from "../WheelPicker";
 
 import Dice from "../../assets/Icons/dice.png";
+import Save from "../../assets/Icons/save.png";
 
 const ATRIBUTES = ["DES", "CON", "INT", "FOR", "SAB", "CAR"];
 const OTHERS = [];
@@ -16,22 +23,76 @@ for (let i = 0; i < 51; i++) {
   OTHERS.push(i);
 }
 
+const useDidMountEffect = (func, deps) => {
+  const didMount = useRef(false);
+  useEffect(() => {
+    if (didMount.current) {
+      func();
+    } else {
+      didMount.current = true;
+    }
+  }, deps);
+};
+
 export function SkillCard({ item: skill }) {
+  // Hooks
+
   const [trained, setTrained] = useState(skill.trained);
 
   const [attriburePicker, setAttributePicker] = useState({
     value: "DES",
     visible: false,
   });
-  
+
   const [othersPicker, setOthersPicker] = useState({
     value: 1,
     visible: false,
   });
 
+  const [update, setUpdate] = useState(false);
+
+  // useDidMountEffect(() => {
+  //   setUpdate(true);
+  //   saveChangesIn();
+  // }, [trained, attriburePicker, othersPicker]);
+
   // console.log(
   //   `\nAtributo:\n${attriburePicker.value}\nOutros:\n${othersPicker.value}\n`
   // );
+
+  // Animations
+
+  const saveChangesPosition = useSharedValue(-35);
+  const saveChangesHeight = useSharedValue(0);
+  const saveChangesPadding = useSharedValue(0);
+  const saveChangesPaddingTop = useSharedValue(0);
+
+  const saveChangesIn = () => {
+    saveChangesPosition.value = withTiming(-5, { duration: 300 });
+    saveChangesHeight.value = withTiming(34, { duration: 300 });
+    saveChangesPadding.value = withTiming(8, { duration: 300 });
+    saveChangesPaddingTop.value = withTiming(10, { duration: 300 });
+  };
+
+  const saveChangesOut = () => {
+    saveChangesPosition.value = withTiming(-35, { duration: 300 });
+    saveChangesHeight.value = withTiming(0, { duration: 300 });
+    saveChangesPadding.value = withTiming(0, { duration: 300 });
+    saveChangesPaddingTop.value = withTiming(0, { duration: 300 });
+  };
+
+  const saveChanges = () => {
+    console.log({
+      skill_id: skill.skill_id,
+      name: skill.name,
+      training: 1,
+      trained,
+      attribure: attriburePicker.value,
+      others: othersPicker.value,
+    });
+
+    saveChangesOut();
+  };
 
   return (
     <View style={styles.container}>
@@ -57,7 +118,10 @@ export function SkillCard({ item: skill }) {
               alignItems: "center",
               justifyContent: "center",
             }}
-            onPress={() => setTrained(!trained)}
+            onPress={() => {
+              setTrained(!trained);
+              saveChangesIn();
+            }}
           >
             <View
               style={{
@@ -101,12 +165,13 @@ export function SkillCard({ item: skill }) {
             <TouchableOpacity
               activeOpacity={0.8}
               style={[styles.boxItemValue, { backgroundColor: "white" }]}
-              onPress={() =>
+              onPress={() => {
                 setAttributePicker({
                   value: attriburePicker.value,
                   visible: true,
-                })
-              }
+                });
+                saveChangesIn();
+              }}
             >
               <Text style={[styles.textItemValue, { color: Colors.primary }]}>
                 {attriburePicker.value}
@@ -137,9 +202,10 @@ export function SkillCard({ item: skill }) {
             <TouchableOpacity
               activeOpacity={0.8}
               style={[styles.boxItemValue, { backgroundColor: "white" }]}
-              onPress={() =>
-                setOthersPicker({ value: othersPicker.value, visible: true })
-              }
+              onPress={() => {
+                setOthersPicker({ value: othersPicker.value, visible: true });
+                saveChangesIn();
+              }}
             >
               <Text style={[styles.textItemValue, { color: Colors.primary }]}>
                 {othersPicker.value}
@@ -153,6 +219,35 @@ export function SkillCard({ item: skill }) {
           />
         </View>
       </View>
+
+      <Animated.View
+        style={[
+          {
+            width: "100%",
+            backgroundColor: Colors.green,
+            borderBottomLeftRadius: 5,
+            borderBottomRightRadius: 5,
+            zIndex: -1,
+          },
+          useAnimatedStyle(() => {
+            "worklet";
+            return {
+              transform: [{ translateY: saveChangesPosition.value }],
+              height: saveChangesHeight.value,
+              padding: saveChangesPadding.value,
+              paddingTop: saveChangesPaddingTop.value,
+            };
+          }),
+        ]}
+      >
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          onPress={() => saveChanges()}
+        >
+          <ImageView image={Save} width={16} />
+        </TouchableOpacity>
+      </Animated.View>
     </View>
   );
 }

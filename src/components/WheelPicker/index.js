@@ -36,7 +36,7 @@ export function WheelPicker({ data, picker, setPicker }) {
             style={{
               width: "60%",
               margin: 0,
-              backgroundColor: "white",
+              backgroundColor: Colors.secondary,
               borderRadius: 16,
               alignItems: "center",
               shadowColor: "#000",
@@ -70,6 +70,7 @@ export function WheelPicker({ data, picker, setPicker }) {
                   {props.label}
                 </Text>
               )}
+              backgroundColor={Colors.secondary}
             />
 
             <TouchableOpacity
