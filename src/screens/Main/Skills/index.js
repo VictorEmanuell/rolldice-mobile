@@ -5,7 +5,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   FlatList,
-  ToastAndroid,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, {
@@ -68,7 +67,7 @@ export function Skills() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
+        <View style={styles.container} onStartShouldSetResponder={() => true}>
           <Animated.View
             style={[
               useAnimatedStyle(() => {

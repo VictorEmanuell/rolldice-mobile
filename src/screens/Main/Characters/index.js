@@ -1,6 +1,7 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import WheelPickerExpo from "react-native-wheel-picker-expo";
 
 import { styles } from "./styles";
 

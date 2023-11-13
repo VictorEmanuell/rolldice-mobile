@@ -1,15 +1,37 @@
-import { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { useRef, useState } from "react";
+import { View, Text, TouchableOpacity, Modal } from "react-native";
 import Colors from "../../assets/Colors";
 
 import { styles } from "./styles";
 
 import { ImageView } from "../ImageView";
+import { WheelPicker } from "../WheelPicker";
 
 import Dice from "../../assets/Icons/dice.png";
 
+const ATRIBUTES = ["DES", "CON", "INT", "FOR", "SAB", "CAR"];
+const OTHERS = [];
+
+for (let i = 0; i < 51; i++) {
+  OTHERS.push(i);
+}
+
 export function SkillCard({ item: skill }) {
   const [trained, setTrained] = useState(skill.trained);
+
+  const [attriburePicker, setAttributePicker] = useState({
+    value: "DES",
+    visible: false,
+  });
+  
+  const [othersPicker, setOthersPicker] = useState({
+    value: 1,
+    visible: false,
+  });
+
+  // console.log(
+  //   `\nAtributo:\n${attriburePicker.value}\nOutros:\n${othersPicker.value}\n`
+  // );
 
   return (
     <View style={styles.container}>
@@ -76,10 +98,26 @@ export function SkillCard({ item: skill }) {
           <View style={styles.containerItem}>
             <Text style={styles.textItem}>Atributo</Text>
 
-            <View style={styles.boxItemValue}>
-              <Text style={styles.textItemValue}>DES</Text>
-            </View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={[styles.boxItemValue, { backgroundColor: "white" }]}
+              onPress={() =>
+                setAttributePicker({
+                  value: attriburePicker.value,
+                  visible: true,
+                })
+              }
+            >
+              <Text style={[styles.textItemValue, { color: Colors.primary }]}>
+                {attriburePicker.value}
+              </Text>
+            </TouchableOpacity>
           </View>
+          <WheelPicker
+            picker={attriburePicker}
+            setPicker={setAttributePicker}
+            data={ATRIBUTES}
+          />
 
           <Text style={styles.textOperators}>+</Text>
 
@@ -96,12 +134,23 @@ export function SkillCard({ item: skill }) {
           <View style={styles.containerItem}>
             <Text style={styles.textItem}>Outros</Text>
 
-            <View style={[styles.boxItemValue, { backgroundColor: "white" }]}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={[styles.boxItemValue, { backgroundColor: "white" }]}
+              onPress={() =>
+                setOthersPicker({ value: othersPicker.value, visible: true })
+              }
+            >
               <Text style={[styles.textItemValue, { color: Colors.primary }]}>
-                1
+                {othersPicker.value}
               </Text>
-            </View>
+            </TouchableOpacity>
           </View>
+          <WheelPicker
+            picker={othersPicker}
+            setPicker={setOthersPicker}
+            data={OTHERS}
+          />
         </View>
       </View>
     </View>
