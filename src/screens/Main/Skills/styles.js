@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  contentContainer: {
+  containerContent: {
     height: "100%",
     alignItems: "center",
   },

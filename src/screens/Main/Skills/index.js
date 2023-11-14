@@ -82,7 +82,7 @@ export function Skills() {
             <Header title="Perícias" />
           </Animated.View>
 
-          <View style={styles.contentContainer}>
+          <View style={styles.containerContent}>
             <View style={styles.searchInputContainer}>
               <View style={styles.searchInputIcon}>
                 <ImageView image={SearchIcon} width={15} />

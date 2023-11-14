@@ -53,7 +53,7 @@ export function WheelPicker({ data, picker, setPicker }) {
               haptics={true}
               selectedStyle={{ borderColor: "#CCCCCC", borderWidth: 1 }}
               height={200}
-              initialSelectedIndex={0}
+              initialSelectedIndex={data.indexOf(picker.value)}
               items={data.map((item) => ({ label: item, value: item }))}
               onChange={({ item }) => setValuePicker(item.value)}
               renderItem={(props) => (

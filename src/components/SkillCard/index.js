@@ -16,23 +16,13 @@ import { WheelPicker } from "../WheelPicker";
 import Dice from "../../assets/Icons/dice.png";
 import Save from "../../assets/Icons/save.png";
 
-const ATRIBUTES = ["DES", "CON", "INT", "FOR", "SAB", "CAR"];
+import { ATRIBUTES } from "../../constants";
+
 const OTHERS = [];
 
-for (let i = 0; i < 51; i++) {
+for (let i = -50; i < 51; i++) {
   OTHERS.push(i);
 }
-
-const useDidMountEffect = (func, deps) => {
-  const didMount = useRef(false);
-  useEffect(() => {
-    if (didMount.current) {
-      func();
-    } else {
-      didMount.current = true;
-    }
-  }, deps);
-};
 
 export function SkillCard({ item: skill }) {
   // Hooks
@@ -48,17 +38,6 @@ export function SkillCard({ item: skill }) {
     value: 1,
     visible: false,
   });
-
-  const [update, setUpdate] = useState(false);
-
-  // useDidMountEffect(() => {
-  //   setUpdate(true);
-  //   saveChangesIn();
-  // }, [trained, attriburePicker, othersPicker]);
-
-  // console.log(
-  //   `\nAtributo:\n${attriburePicker.value}\nOutros:\n${othersPicker.value}\n`
-  // );
 
   // Animations
 
