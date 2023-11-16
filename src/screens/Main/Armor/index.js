@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Keyboard,
   TouchableWithoutFeedback,
@@ -20,6 +20,16 @@ import { WheelPicker } from "../../../components/WheelPicker";
 import { ATRIBUTES } from "../../../constants";
 
 export function Armor() {
+  // Hooks
+
+  const [slot1Name, setSlot1Name] = useState("");
+  const [slot1Defense, setSlot1Defense] = useState('0');
+  const [slot1Penalty, setSlot1Penalty] = useState('0');
+
+  const [slot2Name, setSlot2Name] = useState("");
+  const [slot2Defense, setSlot2Defense] = useState('0');
+  const [slot2Penalty, setSlot2Penalty] = useState('0');
+
   const [useAttribute, setUseAttribute] = useState(false);
 
   const [attriburePicker, setAttributePicker] = useState({
@@ -27,8 +37,10 @@ export function Armor() {
     visible: false,
   });
 
+  const [others, setOthers] = useState();
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView edges={['right', 'top', 'left']} style={{ flex: 1 }}>
       <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
@@ -46,6 +58,10 @@ export function Armor() {
                       numberOfLines={1}
                       textContentType="name"
                       maxLength={14}
+                      placeholder="Armadura"
+                      placeholderTextColor="#cccccc80"
+                      value={slot1Name}
+                      onChangeText={setSlot1Name}
                     />
                   </View>
 
@@ -58,6 +74,9 @@ export function Armor() {
                       numberOfLines={1}
                       maxLength={3}
                       keyboardType="numeric"
+                      placeholder="0"
+                      value={slot1Defense}
+                      onChangeText={setSlot1Defense}
                     />
                   </View>
 
@@ -70,6 +89,9 @@ export function Armor() {
                       numberOfLines={1}
                       maxLength={3}
                       keyboardType="numeric"
+                      placeholder="0"
+                      value={slot1Penalty}
+                      onChangeText={setSlot1Penalty}
                     />
                   </View>
                 </View>
@@ -86,6 +108,10 @@ export function Armor() {
                       numberOfLines={1}
                       textContentType="name"
                       maxLength={14}
+                      placeholder="Escudo"
+                      placeholderTextColor="#cccccc80"
+                      value={slot2Name}
+                      onChangeText={setSlot2Name}
                     />
                   </View>
 
@@ -98,6 +124,9 @@ export function Armor() {
                       numberOfLines={1}
                       maxLength={3}
                       keyboardType="numeric"
+                      placeholder="0"
+                      value={slot2Defense}
+                      onChangeText={setSlot2Defense}
                     />
                   </View>
 
@@ -110,6 +139,9 @@ export function Armor() {
                       numberOfLines={1}
                       maxLength={3}
                       keyboardType="numeric"
+                      placeholder="0"
+                      value={slot2Penalty}
+                      onChangeText={setSlot2Penalty}
                     />
                   </View>
                 </View>
@@ -170,7 +202,7 @@ export function Armor() {
                     <Text style={styles.operator}>+</Text>
 
                     <View style={styles.boxArmorBonus}>
-                      <Text style={styles.textArmorBonus}>5</Text>
+                      <Text style={styles.textArmorBonus}>{slot1Defense}</Text>
                     </View>
                   </View>
                 </View>
@@ -182,7 +214,7 @@ export function Armor() {
                     <Text style={styles.operator}>+</Text>
 
                     <View style={styles.boxShieldBonus}>
-                      <Text style={styles.textShieldBonus}>5</Text>
+                      <Text style={styles.textShieldBonus}>{slot2Defense}</Text>
                     </View>
                   </View>
                 </View>
@@ -200,6 +232,9 @@ export function Armor() {
                       numberOfLines={1}
                       maxLength={3}
                       editable={useAttribute}
+                      placeholder="0"
+                      value={others}
+                      onChangeText={setOthers}
                     />
 
                     <Text style={styles.fixedBonus}>+ 10</Text>

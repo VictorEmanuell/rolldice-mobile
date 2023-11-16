@@ -15,6 +15,7 @@ import SkillsIcon from "../../../assets/Icons/skills.png";
 import AttacksIcon from "../../../assets/Icons/attacks.png";
 import ArmorIcon from "../../../assets/Icons/armor.png";
 import CharactersIcon from "../../../assets/Icons/characters.png";
+import LogoutIcon from "../../../assets/Icons/logout.png";
 
 const Icons = [
   { screen: "Skills", icon: SkillsIcon },
@@ -36,7 +37,6 @@ export function Main() {
           borderTopLeftRadius: 15,
           borderTopRightRadius: 15,
           backgroundColor: Colors.primary,
-          borderWidth: 1,
           borderColor: Colors.primary,
           height: "12%",
         },

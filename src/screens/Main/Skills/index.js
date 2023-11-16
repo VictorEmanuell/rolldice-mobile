@@ -65,7 +65,7 @@ export function Skills() {
   }, [inputFocused]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView edges={['right', 'top', 'left']} style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container} onStartShouldSetResponder={() => true}>
           <Animated.View

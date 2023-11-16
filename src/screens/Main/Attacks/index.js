@@ -7,7 +7,7 @@ import { Header } from '../../../components/Header';
 
 export function Attacks() {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView edges={['right', 'top', 'left']} style={styles.container}>
       <Header title="Ataques"/>
     </SafeAreaView>
   );
