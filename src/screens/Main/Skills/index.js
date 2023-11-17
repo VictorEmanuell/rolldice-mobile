@@ -4,7 +4,7 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  FlatList,
+  // FlatList,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, {
@@ -13,6 +13,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import * as JsSearch from "js-search";
+import { FlatList } from "react-native-gesture-handler";
 
 import { styles } from "./styles";
 

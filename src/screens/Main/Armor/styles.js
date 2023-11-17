@@ -23,6 +23,8 @@ export const styles = StyleSheet.create({
     width: "100%",
     height: 1,
     backgroundColor: "white",
+    elevation: 2,
+    borderRadius: 50
   },
   containerName: {
     width: "48%",
@@ -214,5 +216,22 @@ export const styles = StyleSheet.create({
     fontFamily: Fonts.regular,
     fontSize: 14,
     color: "white",
+  },
+  containerUpdateButtons: {
+    width: '85%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    position: 'absolute',
+    bottom: 10,
+    alignSelf: 'center',
+  },
+  buttonUpdate: {
+    width: '48%',
+    padding: 14,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4
   }
 });

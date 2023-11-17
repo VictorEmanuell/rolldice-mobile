@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Keyboard,
   TouchableWithoutFeedback,
@@ -16,6 +16,10 @@ import { styles } from "./styles";
 
 import { Header } from "../../../components/Header";
 import { WheelPicker } from "../../../components/WheelPicker";
+import { ImageView } from "../../../components/ImageView";
+
+import Delete from "../../../assets/Icons/delete.png";
+import Save from "../../../assets/Icons/save.png";
 
 import { ATRIBUTES } from "../../../constants";
 
@@ -23,12 +27,12 @@ export function Armor() {
   // Hooks
 
   const [slot1Name, setSlot1Name] = useState("");
-  const [slot1Defense, setSlot1Defense] = useState('0');
-  const [slot1Penalty, setSlot1Penalty] = useState('0');
+  const [slot1Defense, setSlot1Defense] = useState("0");
+  const [slot1Penalty, setSlot1Penalty] = useState("0");
 
   const [slot2Name, setSlot2Name] = useState("");
-  const [slot2Defense, setSlot2Defense] = useState('0');
-  const [slot2Penalty, setSlot2Penalty] = useState('0');
+  const [slot2Defense, setSlot2Defense] = useState("0");
+  const [slot2Penalty, setSlot2Penalty] = useState("0");
 
   const [useAttribute, setUseAttribute] = useState(false);
 
@@ -39,14 +43,37 @@ export function Armor() {
 
   const [others, setOthers] = useState();
 
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setKeyboardVisible(true)
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setKeyboardVisible(false)
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
+
   return (
-    <SafeAreaView edges={['right', 'top', 'left']} style={{ flex: 1 }}>
+    <SafeAreaView edges={["right", "top", "left"]} style={{ flex: 1 }}>
       <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
             <Header title="Armadura" />
 
-            <View style={styles.containerContent}>
+            <View
+              style={[
+                styles.containerContent,
+                { top: isKeyboardVisible ? 10 : -20 },
+              ]}
+            >
               <View style={styles.containerInputsSheet}>
                 <View style={styles.containerSlot}>
                   <View style={styles.containerName}>
@@ -247,6 +274,27 @@ export function Armor() {
               <View style={styles.boxResult}>
                 <Text style={styles.textResult}>18</Text>
               </View>
+            </View>
+
+            <View
+              style={[
+                styles.containerUpdateButtons,
+                { display: isKeyboardVisible ? "none" : "flex" },
+              ]}
+            >
+              <TouchableOpacity
+                activeOpacity={0.9}
+                style={[styles.buttonUpdate, { backgroundColor: Colors.red }]}
+              >
+                <ImageView image={Delete} width={20} />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                activeOpacity={0.9}
+                style={[styles.buttonUpdate, { backgroundColor: Colors.green }]}
+              >
+                <ImageView image={Save} width={20} />
+              </TouchableOpacity>
             </View>
           </View>
         </TouchableWithoutFeedback>

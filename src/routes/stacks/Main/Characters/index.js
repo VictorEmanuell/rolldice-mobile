@@ -7,9 +7,13 @@ import { EditCharacter } from "../../../../screens/Main/Characters/EditCharacter
 
 export function CharactersStack() {
   return (
-    <Navigator screenOptions={{
-      headerShown: false
-    }}>
+    <Navigator
+      initialRouteName="SelectCharacter"
+      screenOptions={{
+        headerShown: false,
+        animation: 'slide_from_right',
+      }}
+    >
       <Screen name="SelectCharacter" component={SelectCharacter} />
       <Screen name="EditCharacter" component={EditCharacter} />
     </Navigator>

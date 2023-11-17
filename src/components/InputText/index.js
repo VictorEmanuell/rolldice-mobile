@@ -5,12 +5,18 @@ import Colors from "../../assets/Colors";
 
 import VisiblePass from "../../assets/Icons/visible_pass.png";
 
-export function InputText({ label, placeholder, type, style }) {
+export function InputText({
+  label,
+  placeholder,
+  type,
+  keyboardType,
+  containerStyle,
+}) {
   const [focused, setFocused] = useState(false);
   const [passVisible, setPassVisible] = useState(true);
 
   return (
-    <View style={{ width: "80%" }}>
+    <View style={[{ width: "80%" }, { ...containerStyle }]}>
       <Text
         style={{
           fontFamily: Fonts.medium,
@@ -37,6 +43,7 @@ export function InputText({ label, placeholder, type, style }) {
             borderColor: Colors.lightPurple,
           }}
           textContentType={type}
+          keyboardType={keyboardType}
           secureTextEntry={type === "password" ? passVisible : false}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}

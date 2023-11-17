@@ -69,7 +69,7 @@ export function SignIn({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
+      {/* <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}> */}
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
             <View style={styles.backContainer}>
@@ -145,7 +145,7 @@ export function SignIn({ navigation }) {
             </View>
           </View>
         </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
 }
