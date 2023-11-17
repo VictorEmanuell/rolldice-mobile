@@ -36,6 +36,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 20,
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
+    elevation: 2
   },
   containerRadioButton: {
     flexDirection: "row",

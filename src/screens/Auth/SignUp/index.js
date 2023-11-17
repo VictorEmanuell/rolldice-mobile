@@ -24,6 +24,7 @@ import { Button } from "../../../components/Button";
 import LeftArrow from "../../../assets/Icons/right-arrow.png";
 import Logo from "../../../assets/Icons/logo.png";
 import { ScrollView } from "react-native-gesture-handler";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export function SignUp({ navigation }) {
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -70,85 +71,90 @@ export function SignUp({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}> */}
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <View style={styles.backContainer}>
-            <TouchableOpacity
-              activeOpacity={0.88}
-              style={styles.backButton}
-              onPress={() => navigation.goBack()}
-            >
-              <ImageView image={LeftArrow} width={20} />
-            </TouchableOpacity>
-          </View>
+      <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <KeyboardAwareScrollView
+            enableOnAndroid={true}
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.container}>
+              <View style={styles.backContainer}>
+                <TouchableOpacity
+                  activeOpacity={0.88}
+                  style={styles.backButton}
+                  onPress={() => navigation.goBack()}
+                >
+                  <ImageView image={LeftArrow} width={20} />
+                </TouchableOpacity>
+              </View>
 
-          <View style={styles.containerLogo}>
-            <Animated.View
-              style={[
-                {
-                  aspectRatio: 1,
-                },
-                useAnimatedStyle(() => {
-                  "worklet";
-                  return {
-                    width: logoFade.value,
-                  };
-                }),
-              ]}
-            >
-              <Image
-                source={Logo}
-                style={{ width: "100%", height: "100%" }}
-                resizeMode="center"
-              />
-            </Animated.View>
+              <View style={styles.containerLogo}>
+                <Animated.View
+                  style={[
+                    {
+                      aspectRatio: 1,
+                    },
+                    useAnimatedStyle(() => {
+                      "worklet";
+                      return {
+                        width: logoFade.value,
+                      };
+                    }),
+                  ]}
+                >
+                  <Image
+                    source={Logo}
+                    style={{ width: "100%", height: "100%" }}
+                    resizeMode="center"
+                  />
+                </Animated.View>
 
-            <Animated.Text
-              style={[
-                styles.textTitle,
-                useAnimatedStyle(() => {
-                  "worklet";
-                  return {
-                    paddingVertical: textDecrease.value,
-                    fontSize: textSize.value,
-                  };
-                }),
-              ]}
-            >
-              ROLLDICE
-            </Animated.Text>
-          </View>
+                <Animated.Text
+                  style={[
+                    styles.textTitle,
+                    useAnimatedStyle(() => {
+                      "worklet";
+                      return {
+                        paddingVertical: textDecrease.value,
+                        fontSize: textSize.value,
+                      };
+                    }),
+                  ]}
+                >
+                  ROLLDICE
+                </Animated.Text>
+              </View>
 
-          <View style={styles.containerInputs}>
-            <InputText
-              label="Nome"
-              placeholder="Digite seu nome aqui..."
-              type="name"
-            />
-            <InputText
-              label="Email"
-              placeholder="Digite seu email aqui..."
-              type="emailAddress"
-            />
-            <InputText
-              label="Senha"
-              placeholder="•••••••••••••••"
-              type="password"
-            />
-            <InputText
-              label="Confirmar Senha"
-              placeholder="•••••••••••••••"
-              type="password"
-            />
-          </View>
+              <View style={styles.containerInputs}>
+                <InputText
+                  label="Nome"
+                  placeholder="Digite seu nome aqui..."
+                  type="name"
+                />
+                <InputText
+                  label="Email"
+                  placeholder="Digite seu email aqui..."
+                  type="emailAddress"
+                />
+                <InputText
+                  label="Senha"
+                  placeholder="•••••••••••••••"
+                  type="password"
+                />
+                <InputText
+                  label="Confirmar Senha"
+                  placeholder="•••••••••••••••"
+                  type="password"
+                />
+              </View>
 
-          <View style={styles.containerButtonLogin}>
-            <Button label="ENTRAR" style={{ alignSelf: "flex-end" }} />
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-      {/* </KeyboardAvoidingView> */}
+              <View style={styles.containerButtonLogin}>
+                <Button label="ENTRAR" style={{ alignSelf: "flex-end" }} />
+              </View>
+            </View>
+          </KeyboardAwareScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

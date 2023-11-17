@@ -8,8 +8,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   containerContent: {
-    paddingTop: 8,
-    paddingBottom: 100,
+    paddingTop: 5,
+    paddingBottom: 50,
   },
   divider: {
     width: "100%",
@@ -69,22 +69,21 @@ export const styles = StyleSheet.create({
   },
   labelAttribute: {
     fontFamily: Fonts.regular,
-    fontSize: 16,
+    fontSize: 15,
     color: "white",
   },
-  buttonAttributePicker: {
+  inputAttribute: {
     borderRadius: 5,
     backgroundColor: Colors.primary,
-    padding: 8,
+    padding: 6,
     aspectRatio: 1.2,
     alignItems: "center",
     justifyContent: "center",
-    elevation: 4
-  },
-  textAttributePicker: {
+    elevation: 4,
     fontFamily: Fonts.regular,
     fontSize: 15,
     color: "white",
+    textAlign: 'center'
   },
   containerUpdateButtons: {
     width: '85%',

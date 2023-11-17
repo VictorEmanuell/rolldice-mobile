@@ -27,12 +27,12 @@ export function Armor() {
   // Hooks
 
   const [slot1Name, setSlot1Name] = useState("");
-  const [slot1Defense, setSlot1Defense] = useState("0");
-  const [slot1Penalty, setSlot1Penalty] = useState("0");
+  const [slot1Defense, setSlot1Defense] = useState("");
+  const [slot1Penalty, setSlot1Penalty] = useState("");
 
   const [slot2Name, setSlot2Name] = useState("");
-  const [slot2Defense, setSlot2Defense] = useState("0");
-  const [slot2Penalty, setSlot2Penalty] = useState("0");
+  const [slot2Defense, setSlot2Defense] = useState("");
+  const [slot2Penalty, setSlot2Penalty] = useState("");
 
   const [useAttribute, setUseAttribute] = useState(false);
 
@@ -229,7 +229,9 @@ export function Armor() {
                     <Text style={styles.operator}>+</Text>
 
                     <View style={styles.boxArmorBonus}>
-                      <Text style={styles.textArmorBonus}>{slot1Defense}</Text>
+                      <Text style={styles.textArmorBonus}>
+                        {slot1Defense ? slot1Defense : 0}
+                      </Text>
                     </View>
                   </View>
                 </View>
@@ -241,7 +243,9 @@ export function Armor() {
                     <Text style={styles.operator}>+</Text>
 
                     <View style={styles.boxShieldBonus}>
-                      <Text style={styles.textShieldBonus}>{slot2Defense}</Text>
+                      <Text style={styles.textShieldBonus}>
+                        {slot2Defense ? slot2Defense : 0}
+                      </Text>
                     </View>
                   </View>
                 </View>

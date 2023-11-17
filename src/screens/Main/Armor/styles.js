@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
     height: 1,
     backgroundColor: "white",
     elevation: 2,
-    borderRadius: 50
+    borderRadius: 50,
   },
   containerName: {
     width: "48%",
@@ -137,6 +137,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 14,
     backgroundColor: Colors.primary,
     borderRadius: 5,
+    elevation: 2,
   },
   boxOperator: {
     flexDirection: "row",
@@ -163,6 +164,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 14,
     backgroundColor: Colors.primary,
     borderRadius: 5,
+    elevation: 2,
   },
   textShieldBonus: {
     fontFamily: Fonts.regular,
@@ -207,10 +209,10 @@ export const styles = StyleSheet.create({
   },
   boxResult: {
     padding: 8,
-    paddingHorizontal: '15%',
+    paddingHorizontal: "15%",
     backgroundColor: Colors.primary,
     borderRadius: 5,
-    marginTop: 10
+    marginTop: 10,
   },
   textResult: {
     fontFamily: Fonts.regular,
@@ -218,20 +220,20 @@ export const styles = StyleSheet.create({
     color: "white",
   },
   containerUpdateButtons: {
-    width: '85%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    position: 'absolute',
+    width: "85%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    position: "absolute",
     bottom: 10,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   buttonUpdate: {
-    width: '48%',
+    width: "48%",
     padding: 14,
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 4
-  }
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 4,
+  },
 });
