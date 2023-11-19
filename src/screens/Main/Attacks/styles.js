@@ -16,16 +16,17 @@ export const styles = StyleSheet.create({
   },
   buttonCreateAttack: {
     backgroundColor: Colors.primary,
-    padding: 10,
+    padding: 6,
     borderRadius: 5,
     alignSelf: "flex-end",
     aspectRatio: 1,
     elevation: 4
   },
   textCreateAttack: {
-    fontFamily: Fonts.medium,
-    fontSize: 18,
+    fontFamily: Fonts.regular,
+    fontSize: 22,
     color: "white",
     textAlign: "center",
+    bottom: -2
   },
 });

@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Image,
+  ToastAndroid,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, {
@@ -14,6 +15,9 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../services/firebase";
 
 import { styles } from "./styles";
 
@@ -23,25 +27,27 @@ import { Button } from "../../../components/Button";
 
 import LeftArrow from "../../../assets/Icons/right-arrow.png";
 import Logo from "../../../assets/Icons/logo.png";
-import { ScrollView } from "react-native-gesture-handler";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export function SignUp({ navigation }) {
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [name, setName] = useState({ value: "", validate: true });
+  const [email, setEmail] = useState({ value: "", validate: true });
+  const [password, setPassword] = useState({ value: "", validate: true });
+  const [confirmPassword, setConfirmPassword] = useState({
+    value: "",
+    validate: true,
+  });
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
       () => {
         logoFadeOut();
-        setKeyboardVisible(true);
       }
     );
     const keyboardDidHideListener = Keyboard.addListener(
       "keyboardDidHide",
       () => {
         logoFadeIn();
-        setKeyboardVisible(false);
       }
     );
 
@@ -67,6 +73,45 @@ export function SignUp({ navigation }) {
     logoFade.value = withTiming(120, { duration: 500 });
     textDecrease.value = withTiming(20, { duration: 500 });
     textSize.value = withTiming(30, { duration: 500 });
+  };
+
+  // Validators
+
+  const nameValidate = (text) => {
+    if (text || text.length > 3) return true;
+    else return false;
+  };
+
+  const emailValidate = (text) => {
+    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+
+    return regex.test(text);
+  };
+
+  const passwordValidate = (text) => {
+    if (text === password.value) return true;
+    else return false;
+  };
+
+  // Authenticate
+
+  const handleAuthenticate = () => {
+    if (name.validate && email.validate && confirmPassword.validate) {
+      createUserWithEmailAndPassword(auth, email.value, password.value)
+        .then((userCredential) => {
+          const user = userCredential.user;
+
+          // console.log(user);
+        })
+        .catch((error) => {
+          console.log(error.code);
+          if (error.code === "auth/email-already-in-use") {
+            ToastAndroid.show("Usuário já existe!", ToastAndroid.LONG);
+          }
+        });
+    } else {
+      ToastAndroid.show("Preencha os campos corretamente!", ToastAndroid.LONG);
+    }
   };
 
   return (
@@ -130,26 +175,60 @@ export function SignUp({ navigation }) {
                   label="Nome"
                   placeholder="Digite seu nome aqui..."
                   type="name"
+                  onChangeText={(text) =>
+                    setName({ value: text, validate: nameValidate(text) })
+                  }
+                  value={name.value}
+                  validate={name.validate}
                 />
                 <InputText
                   label="Email"
                   placeholder="Digite seu email aqui..."
                   type="emailAddress"
+                  keyboardType="email-address"
+                  onChangeText={(text) =>
+                    setEmail({
+                      value: text,
+                      validate: emailValidate(text),
+                    })
+                  }
+                  value={email.value}
+                  validate={email.validate}
+                  autoCapitalize="none"
                 />
                 <InputText
                   label="Senha"
                   placeholder="•••••••••••••••"
                   type="password"
+                  onChangeText={(text) =>
+                    setPassword({
+                      value: text,
+                      validate: text && text.length >= 6 ? true : false,
+                    })
+                  }
+                  value={password.value}
+                  validate={password.validate}
                 />
                 <InputText
                   label="Confirmar Senha"
                   placeholder="•••••••••••••••"
                   type="password"
+                  onChangeText={(text) =>
+                    setConfirmPassword({
+                      value: text,
+                      validate: passwordValidate(text),
+                    })
+                  }
+                  validate={confirmPassword.validate}
                 />
               </View>
 
               <View style={styles.containerButtonLogin}>
-                <Button label="ENTRAR" style={{ alignSelf: "flex-end" }} />
+                <Button
+                  label="ENTRAR"
+                  style={{ alignSelf: "flex-end" }}
+                  onPress={handleAuthenticate}
+                />
               </View>
             </View>
           </KeyboardAwareScrollView>

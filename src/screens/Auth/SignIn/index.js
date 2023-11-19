@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Image,
+  ToastAndroid,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, {
@@ -14,6 +15,8 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../services/firebase";
 
 import { styles } from "./styles";
 
@@ -25,21 +28,20 @@ import LeftArrow from "../../../assets/Icons/right-arrow.png";
 import Logo from "../../../assets/Icons/logo.png";
 
 export function SignIn({ navigation }) {
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [email, setEmail] = useState({ value: "", validate: true });
+  const [password, setPassword] = useState({ value: "", validate: true });
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
       () => {
         logoFadeOut();
-        setKeyboardVisible(true);
       }
     );
     const keyboardDidHideListener = Keyboard.addListener(
       "keyboardDidHide",
       () => {
         logoFadeIn();
-        setKeyboardVisible(false);
       }
     );
 
@@ -67,84 +69,135 @@ export function SignIn({ navigation }) {
     textSize.value = withTiming(30, { duration: 500 });
   };
 
+  // Validators
+
+  const emailValidate = (text) => {
+    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
+
+    return regex.test(text);
+  };
+
+  // Authenticate
+
+  const handleAuthenticate = () => {
+    if (email.validate && password.validate) {
+      signInWithEmailAndPassword(auth, email.value, password.value)
+        .then((userCredential) => {
+          const user = userCredential.user;
+
+          // console.log(user);
+        })
+        .catch((error) => {
+          console.log(error.code);
+          // if (error.code === "auth/email-already-in-use") {
+          //   ToastAndroid.show("Usuário já existe!", ToastAndroid.LONG);
+          // }
+        });
+    } else {
+      ToastAndroid.show("Preencha os campos corretamente!", ToastAndroid.LONG);
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {/* <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}> */}
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.container}>
-            <View style={styles.backContainer}>
-              <TouchableOpacity
-                activeOpacity={0.88}
-                style={styles.backButton}
-                onPress={() => navigation.goBack()}
-              >
-                <ImageView image={LeftArrow} width={20} />
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.containerLogo}>
-              <Animated.View
-                style={[
-                  {
-                    aspectRatio: 1,
-                  },
-                  useAnimatedStyle(() => {
-                    "worklet";
-                    return {
-                      width: logoFade.value,
-                    };
-                  }),
-                ]}
-              >
-                <Image
-                  source={Logo}
-                  style={{ width: "100%", height: "100%" }}
-                  resizeMode="center"
-                />
-              </Animated.View>
-
-              <Animated.Text
-                style={[
-                  styles.textTitle,
-                  useAnimatedStyle(() => {
-                    "worklet";
-                    return {
-                      paddingVertical: textDecrease.value,
-                      fontSize: textSize.value,
-                    };
-                  }),
-                ]}
-              >
-                ROLLDICE
-              </Animated.Text>
-            </View>
-
-            <View style={styles.containerInputs}>
-              <InputText
-                label="Email"
-                placeholder="Digite seu email aqui..."
-                type="emailAddress"
-              />
-              <InputText
-                label="Senha"
-                placeholder="•••••••••••••••"
-                type="password"
-                secure={true}
-              />
-            </View>
-
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <View style={styles.backContainer}>
             <TouchableOpacity
-              activeOpacity={0.6}
-              style={styles.containerForgotPassword}
+              activeOpacity={0.88}
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}
             >
-              <Text style={styles.textForgotPassword}>Esqueceu a senha?</Text>
+              <ImageView image={LeftArrow} width={20} />
             </TouchableOpacity>
-
-            <View style={styles.containerButtonLogin}>
-              <Button label="ENTRAR" style={{ alignSelf: "flex-end" }} onPress={() => navigation.navigate('Main')} />
-            </View>
           </View>
-        </TouchableWithoutFeedback>
+
+          <View style={styles.containerLogo}>
+            <Animated.View
+              style={[
+                {
+                  aspectRatio: 1,
+                },
+                useAnimatedStyle(() => {
+                  "worklet";
+                  return {
+                    width: logoFade.value,
+                  };
+                }),
+              ]}
+            >
+              <Image
+                source={Logo}
+                style={{ width: "100%", height: "100%" }}
+                resizeMode="center"
+              />
+            </Animated.View>
+
+            <Animated.Text
+              style={[
+                styles.textTitle,
+                useAnimatedStyle(() => {
+                  "worklet";
+                  return {
+                    paddingVertical: textDecrease.value,
+                    fontSize: textSize.value,
+                  };
+                }),
+              ]}
+            >
+              ROLLDICE
+            </Animated.Text>
+          </View>
+
+          <View style={styles.containerInputs}>
+            <InputText
+              label="Email"
+              placeholder="Digite seu email aqui..."
+              type="emailAddress"
+              keyboardType="email-address"
+              onChangeText={(text) =>
+                setEmail({
+                  value: text,
+                  validate: emailValidate(text),
+                })
+              }
+              value={email.value}
+              validate={email.validate}
+              autoCapitalize="none"
+            />
+            <InputText
+              label="Senha"
+              placeholder="•••••••••••••••"
+              type="password"
+              secure={true}
+              onChangeText={(text) =>
+                setPassword({
+                  value: text,
+                  validate: text && text.length >= 6 ? true : false,
+                })
+              }
+              value={password.value}
+              validate={password.validate}
+            />
+          </View>
+
+          <TouchableOpacity
+            activeOpacity={0.6}
+            style={styles.containerForgotPassword}
+          >
+            <Text style={styles.textForgotPassword}>Esqueceu a senha?</Text>
+          </TouchableOpacity>
+
+          <View style={styles.containerButtonLogin}>
+            <Button
+              label="ENTRAR"
+              style={{ alignSelf: "flex-end" }}
+              onPress={handleAuthenticate}
+            />
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
       {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );

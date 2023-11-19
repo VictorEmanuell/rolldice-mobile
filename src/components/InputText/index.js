@@ -11,6 +11,10 @@ export function InputText({
   type,
   keyboardType,
   containerStyle,
+  onChangeText,
+  value,
+  validate = true,
+  autoCapitalize
 }) {
   const [focused, setFocused] = useState(false);
   const [passVisible, setPassVisible] = useState(true);
@@ -39,14 +43,17 @@ export function InputText({
             padding: 8,
             fontFamily: Fonts.regular,
             color: "white",
-            borderWidth: focused ? 0.6 : 0,
-            borderColor: Colors.lightPurple,
+            borderWidth: !validate ? 0.6 : focused ? 0.6 : 0,
+            borderColor: !validate ? Colors.red : Colors.lightPurple,
           }}
           textContentType={type}
           keyboardType={keyboardType}
           secureTextEntry={type === "password" ? passVisible : false}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
+          onChangeText={onChangeText}
+          value={value}
+          autoCapitalize={autoCapitalize}
         />
 
         {type === "password" && (

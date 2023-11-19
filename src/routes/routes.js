@@ -1,5 +1,8 @@
+import { useRef } from "react";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../services/firebase";
 
 import Colors from "../assets/Colors";
 
@@ -17,10 +20,23 @@ import { Auth } from "./stacks/Auth";
 import { Main } from "./stacks/Main";
 
 export default function Routes() {
+  const navigationRef = useRef();
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log(user.email);
+      navigationRef.current.navigate("Main");
+      navigationRef.current.reset({
+        index: 0,
+        routes: [{ name: 'Main' }],
+      });
+    }
+  });
+
   return (
-    <NavigationContainer theme={theme}>
+    <NavigationContainer ref={navigationRef} theme={theme}>
       <Navigator
-        initialRouteName="Main"
+        initialRouteName="Auth"
         screenOptions={{
           headerShown: false,
           statusBarAnimation: "fade",
