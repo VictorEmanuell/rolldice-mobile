@@ -15,9 +15,13 @@ import Animated, {
 } from "react-native-reanimated";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch } from "react-redux";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../services/firebase";
-import { setLoading } from "../../../store/Loading/actions";
+import { createUser } from "../../../services/api/User/CreateUser";
+import { loading } from "../../../utils/Loading";
+import {
+  nameValidate,
+  emailValidate,
+  passwordValidate,
+} from "../../../utils/Validators";
 
 import { styles } from "./styles";
 
@@ -29,7 +33,11 @@ import LeftArrow from "../../../assets/Icons/right-arrow.png";
 import Logo from "../../../assets/Icons/logo.png";
 
 export function SignUp({ navigation }) {
+  // Redux
+
   const dispatch = useDispatch();
+
+  // Hooks
 
   const [name, setName] = useState({ value: "", validate: true });
   const [email, setEmail] = useState({ value: "", validate: true });
@@ -77,27 +85,9 @@ export function SignUp({ navigation }) {
     textSize.value = withTiming(30, { duration: 500 });
   };
 
-  // Validators
-
-  const nameValidate = (text) => {
-    if (text || text.length > 3) return true;
-    else return false;
-  };
-
-  const emailValidate = (text) => {
-    const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
-
-    return regex.test(text);
-  };
-
-  const passwordValidate = (text) => {
-    if (text === password.value) return true;
-    else return false;
-  };
-
   // Authenticate
 
-  const handleAuthenticate = () => {
+  const handleAuthenticate = async () => {
     if (
       name.validate &&
       name.value &&
@@ -106,33 +96,24 @@ export function SignUp({ navigation }) {
       confirmPassword.validate &&
       confirmPassword.value
     ) {
-      dispatch(setLoading({ active: true, label: "Entrando..." }));
-      createUserWithEmailAndPassword(auth, email.value, password.value)
-        .then((userCredential) => {
-          const user = userCredential.user;
+      loading(dispatch, { active: true, label: "Entrando..." });
 
+      await createUser(
+        {
+          name: name.value,
+          email: email.value,
+          password: password.value,
+        },
+        () => {
           navigation.navigate("Main");
           navigation.reset({
             index: 0,
             routes: [{ name: "Main" }],
           });
+        }
+      );
 
-          setTimeout(
-            () => dispatch(setLoading({ active: false, label: "" })),
-            500
-          );
-        })
-        .catch((error) => {
-          console.log(error.code);
-          if (error.code === "auth/email-already-in-use") {
-            ToastAndroid.show("Usuário já existe!", ToastAndroid.LONG);
-          }
-
-          setTimeout(
-            () => dispatch(setLoading({ active: false, label: "" })),
-            800
-          );
-        });
+      loading(dispatch, { active: false, label: "", delay: 1500 });
     } else {
       ToastAndroid.show("Preencha os campos corretamente!", ToastAndroid.LONG);
     }
@@ -241,7 +222,7 @@ export function SignUp({ navigation }) {
                   onChangeText={(text) =>
                     setConfirmPassword({
                       value: text,
-                      validate: passwordValidate(text),
+                      validate: passwordValidate(password.value, text),
                     })
                   }
                   validate={confirmPassword.validate}

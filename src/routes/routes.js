@@ -35,7 +35,8 @@ export default function Routes() {
       //   routes: [{ name: "Main" }],
       // });
 
-      console.log(user.email);
+      // console.log(user.stsTokenManager.accessToken);
+      // console.log(user.uid)
     }
   });
 
