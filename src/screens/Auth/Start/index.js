@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Animated from 'react-native-reanimated'
 
 import { styles } from "./styles";
 
@@ -12,13 +13,13 @@ export function Start({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.topBox}>
-        <View style={styles.image}>
+        <Animated.View sharedTransitionTag="logoAuth" style={styles.image}>
           <Image
             source={Logo}
             style={{ width: "100%", height: "100%" }}
             resizeMode="center"
           />
-        </View>
+        </Animated.View>
 
         <Text style={styles.textTitle}>ROLLDICE</Text>
       </View>

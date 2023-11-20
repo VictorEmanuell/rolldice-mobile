@@ -134,6 +134,7 @@ export function SignIn({ navigation }) {
 
           <View style={styles.containerLogo}>
             <Animated.View
+              sharedTransitionTag="logoAuth"
               style={[
                 {
                   aspectRatio: 1,
