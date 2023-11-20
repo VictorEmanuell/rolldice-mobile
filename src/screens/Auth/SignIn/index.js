@@ -3,10 +3,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Image,
   ToastAndroid,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -58,7 +56,7 @@ export function SignIn({ navigation }) {
 
   // Animations
 
-  const logoFade = useSharedValue(150);
+  const logoFade = useSharedValue(180);
   const textDecrease = useSharedValue(20);
   const textSize = useSharedValue(30);
 
@@ -69,7 +67,7 @@ export function SignIn({ navigation }) {
   };
 
   const logoFadeIn = () => {
-    logoFade.value = withTiming(150, { duration: 500 });
+    logoFade.value = withTiming(180, { duration: 500 });
     textDecrease.value = withTiming(20, { duration: 500 });
     textSize.value = withTiming(30, { duration: 500 });
   };
@@ -85,14 +83,14 @@ export function SignIn({ navigation }) {
   // Authenticate
 
   const handleAuthenticate = () => {
-    if (email.validate && password.validate) {
+    if (email.validate && email.value && password.validate && password.value) {
       dispatch(setLoading({ active: true, label: "Entrando..." }));
       signInWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
           const user = userCredential.user;
 
           // console.log(user);
-          navigation.navigate('Main');
+          navigation.navigate("Main");
           navigation.reset({
             index: 0,
             routes: [{ name: "Main" }],
@@ -119,7 +117,6 @@ export function SignIn({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}> */}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <View style={styles.backContainer}>
@@ -134,7 +131,6 @@ export function SignIn({ navigation }) {
 
           <View style={styles.containerLogo}>
             <Animated.View
-              sharedTransitionTag="logoAuth"
               style={[
                 {
                   aspectRatio: 1,
@@ -147,7 +143,8 @@ export function SignIn({ navigation }) {
                 }),
               ]}
             >
-              <Image
+              <Animated.Image
+                sharedTransitionTag="logoAuth"
                 source={Logo}
                 style={{ width: "100%", height: "100%" }}
                 resizeMode="center"
@@ -210,15 +207,19 @@ export function SignIn({ navigation }) {
           </TouchableOpacity>
 
           <View style={styles.containerButtonLogin}>
-            <Button
-              label="ENTRAR"
-              style={{ alignSelf: "flex-end" }}
-              onPress={handleAuthenticate}
-            />
+            <Animated.View
+              sharedTransitionTag="buttonLogin"
+              style={{ alignSelf: "flex-end", width: "62%" }}
+            >
+              <Button
+                label="ENTRAR"
+                onPress={handleAuthenticate}
+                width={"100%"}
+              />
+            </Animated.View>
           </View>
         </View>
       </TouchableWithoutFeedback>
-      {/* </KeyboardAvoidingView> */}
     </SafeAreaView>
   );
 }

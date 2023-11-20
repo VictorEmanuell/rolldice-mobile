@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import {
   View,
-  Text,
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Image,
   ToastAndroid,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -100,7 +98,14 @@ export function SignUp({ navigation }) {
   // Authenticate
 
   const handleAuthenticate = () => {
-    if (name.validate && email.validate && confirmPassword.validate) {
+    if (
+      name.validate &&
+      name.value &&
+      email.validate &&
+      email.value &&
+      confirmPassword.validate &&
+      confirmPassword.value
+    ) {
       dispatch(setLoading({ active: true, label: "Entrando..." }));
       createUserWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
@@ -166,7 +171,8 @@ export function SignUp({ navigation }) {
                     }),
                   ]}
                 >
-                  <Image
+                  <Animated.Image
+                    sharedTransitionTag="logoAuth"
                     source={Logo}
                     style={{ width: "100%", height: "100%" }}
                     resizeMode="center"
@@ -243,11 +249,16 @@ export function SignUp({ navigation }) {
               </View>
 
               <View style={styles.containerButtonLogin}>
-                <Button
-                  label="ENTRAR"
-                  style={{ alignSelf: "flex-end" }}
-                  onPress={handleAuthenticate}
-                />
+                <Animated.View
+                  sharedTransitionTag="buttonLogin"
+                  style={{ alignSelf: "flex-end", width: "62%", marginTop: 20 }}
+                >
+                  <Button
+                    label="ENTRAR"
+                    onPress={handleAuthenticate}
+                    width={"100%"}
+                  />
+                </Animated.View>
               </View>
             </View>
           </KeyboardAwareScrollView>
