@@ -5,6 +5,8 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../../store/Loading/actions";
 
 import Colors from "../../assets/Colors";
 
@@ -25,6 +27,8 @@ for (let i = -50; i < 51; i++) {
 }
 
 export function SkillCard({ item: skill }) {
+  const dispatch = useDispatch();
+
   // Hooks
 
   const [trained, setTrained] = useState(skill.trained);
@@ -61,6 +65,8 @@ export function SkillCard({ item: skill }) {
   };
 
   const saveChanges = () => {
+    dispatch(setLoading({ active: true, label: "Salvando..." }));
+
     console.log({
       skill_id: skill.skill_id,
       name: skill.name,
@@ -71,6 +77,9 @@ export function SkillCard({ item: skill }) {
     });
 
     saveChangesOut();
+    setTimeout(() => {
+      dispatch(setLoading({ active: false, label: "" }));
+    }, 5000);
   };
 
   return (

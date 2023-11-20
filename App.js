@@ -13,7 +13,8 @@ import {
   Poppins_800ExtraBold_Italic,
 } from "@expo-google-fonts/poppins";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import * as NavigationBar from "expo-navigation-bar";
+import { Provider } from "react-redux";
+import { store } from "./src/store";
 
 import Colors from "./src/assets/Colors";
 
@@ -36,22 +37,21 @@ export default function App() {
     return null;
   }
 
-  // NavigationBar.setBackgroundColorAsync(Colors.background);
-  // NavigationBar.setBorderColorAsync(Colors.lightPurple);
-
   return (
     <GestureHandlerRootView
       style={{ flex: 1, backgroundColor: Colors.background }}
     >
-      <SafeAreaProvider
-        style={{
-          flex: 1,
-          backgroundColor: Colors.background,
-        }}
-      >
-        <StatusBar style="light" />
-        <Routes />
-      </SafeAreaProvider>
+      <Provider store={store}>
+        <SafeAreaProvider
+          style={{
+            flex: 1,
+            backgroundColor: Colors.background,
+          }}
+        >
+          <StatusBar style="light" />
+          <Routes />
+        </SafeAreaProvider>
+      </Provider>
     </GestureHandlerRootView>
   );
 }

@@ -16,8 +16,10 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDispatch } from "react-redux";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../services/firebase";
+import { setLoading } from "../../../store/Loading/actions";
 
 import { styles } from "./styles";
 
@@ -29,6 +31,8 @@ import LeftArrow from "../../../assets/Icons/right-arrow.png";
 import Logo from "../../../assets/Icons/logo.png";
 
 export function SignUp({ navigation }) {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState({ value: "", validate: true });
   const [email, setEmail] = useState({ value: "", validate: true });
   const [password, setPassword] = useState({ value: "", validate: true });
@@ -97,17 +101,32 @@ export function SignUp({ navigation }) {
 
   const handleAuthenticate = () => {
     if (name.validate && email.validate && confirmPassword.validate) {
+      dispatch(setLoading({ active: true, label: "Entrando..." }));
       createUserWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
           const user = userCredential.user;
 
-          // console.log(user);
+          navigation.navigate("Main");
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Main" }],
+          });
+
+          setTimeout(
+            () => dispatch(setLoading({ active: false, label: "" })),
+            500
+          );
         })
         .catch((error) => {
           console.log(error.code);
           if (error.code === "auth/email-already-in-use") {
             ToastAndroid.show("Usuário já existe!", ToastAndroid.LONG);
           }
+
+          setTimeout(
+            () => dispatch(setLoading({ active: false, label: "" })),
+            800
+          );
         });
     } else {
       ToastAndroid.show("Preencha os campos corretamente!", ToastAndroid.LONG);

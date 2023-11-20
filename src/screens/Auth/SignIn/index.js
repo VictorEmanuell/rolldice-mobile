@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { useDispatch } from "react-redux";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../services/firebase";
 
@@ -27,7 +28,11 @@ import { Button } from "../../../components/Button";
 import LeftArrow from "../../../assets/Icons/right-arrow.png";
 import Logo from "../../../assets/Icons/logo.png";
 
+import { setLoading } from "../../../store/Loading/actions";
+
 export function SignIn({ navigation }) {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState({ value: "", validate: true });
   const [password, setPassword] = useState({ value: "", validate: true });
 
@@ -81,17 +86,31 @@ export function SignIn({ navigation }) {
 
   const handleAuthenticate = () => {
     if (email.validate && password.validate) {
+      dispatch(setLoading({ active: true, label: "Entrando..." }));
       signInWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
           const user = userCredential.user;
 
           // console.log(user);
+          navigation.navigate('Main');
+          navigation.reset({
+            index: 0,
+            routes: [{ name: "Main" }],
+          });
+          setTimeout(
+            () => dispatch(setLoading({ active: false, label: "" })),
+            500
+          );
         })
         .catch((error) => {
           console.log(error.code);
           // if (error.code === "auth/email-already-in-use") {
           //   ToastAndroid.show("Usuário já existe!", ToastAndroid.LONG);
           // }
+          setTimeout(
+            () => dispatch(setLoading({ active: false, label: "" })),
+            800
+          );
         });
     } else {
       ToastAndroid.show("Preencha os campos corretamente!", ToastAndroid.LONG);
