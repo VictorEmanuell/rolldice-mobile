@@ -5,9 +5,9 @@ import Animated from "react-native-reanimated";
 
 import { styles } from "./styles";
 
-import Logo from "../../../assets/Icons/logo.png";
-
 import { Button } from "../../../components/Button";
+
+import Logo from "../../../assets/Icons/logo.png";
 
 export function Start({ navigation }) {
   return (
