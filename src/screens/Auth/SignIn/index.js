@@ -90,7 +90,7 @@ export function SignIn({ navigation }) {
         .catch((error) => {
           console.log(error.code);
         });
-      loading(dispatch, { active: false, label: "" });
+      loading(dispatch, { active: false, label: "", delay: 1500 });
     } else {
       ToastAndroid.show("Preencha os campos corretamente!", ToastAndroid.LONG);
     }

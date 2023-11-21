@@ -10,6 +10,12 @@ export const characterSlice = createSlice({
       state.name = action.payload.name;
       state.level = action.payload.level;
       state.class = action.payload.class;
+      state.strength = action.payload.strength;
+      state.dexterity = action.payload.dexterity;
+      state.constitution = action.payload.constitution;
+      state.intelligence = action.payload.intelligence;
+      state.wisdom = action.payload.wisdom;
+      state.charisma = action.payload.charisma;
     },
   },
 });

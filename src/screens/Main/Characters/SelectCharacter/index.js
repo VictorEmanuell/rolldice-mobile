@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../../services/firebase";
+import { useDispatch } from "react-redux";
+import { loading } from "../../../../utils/Loading";
 
 import { styles } from "./styles";
 
@@ -15,18 +17,22 @@ const CHARACTERS = [
 ];
 
 export function SelectCharacter({ navigation }) {
+  const dispatch = useDispatch();
+
   const handleSignOut = () => {
+    loading(dispatch, { active: true, label: "Saindo..." });
     signOut(auth)
       .then(() => {
         navigation.navigate("Auth");
         navigation.reset({
           index: 0,
-          routes: [{ name: 'Auth' }],
+          routes: [{ name: "Auth" }],
         });
       })
       .catch((error) => {
         console.log(error);
       });
+    loading(dispatch, { active: false, label: "", delay: 2000 });
   };
 
   return (

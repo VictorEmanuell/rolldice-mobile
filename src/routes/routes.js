@@ -29,12 +29,17 @@ export default function Routes() {
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // navigationRef.current.navigate("Main");
-      // navigationRef.current.reset({
-      //   index: 0,
-      //   routes: [{ name: "Main" }],
-      // });
-
+      if (
+        navigationRef.current &&
+        navigationRef.current.getCurrentRoute().name &&
+        navigationRef.current.getCurrentRoute().name === "Start"
+      ) {
+        navigationRef.current.navigate("Main");
+        navigationRef.current.reset({
+          index: 0,
+          routes: [{ name: "Main" }],
+        });
+      }
       // console.log(user.stsTokenManager.accessToken);
       // console.log(user.uid)
     }

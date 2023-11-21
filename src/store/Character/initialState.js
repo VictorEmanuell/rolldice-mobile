@@ -3,4 +3,11 @@ export const characterInitialState = {
   name: "",
   level: null,
   class: "",
+  level: null,
+  strength: null,
+  dexterity: null,
+  constitution: null,
+  intelligence: null,
+  wisdom: null,
+  charisma: null
 };
