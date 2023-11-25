@@ -10,6 +10,13 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {
+  createCharacter,
+  deleteCharacter,
+  updateCharacter,
+} from "../../../../services/api/Characters";
+import { loading } from "../../../../utils/Loading";
+import { useDispatch } from "react-redux";
 
 import { styles } from "./styles";
 
@@ -23,13 +30,99 @@ import Delete from "../../../../assets/Icons/delete.png";
 import { CLASSES } from "../../../../constants";
 import Colors from "../../../../assets/Colors";
 
-export function EditCharacter({ route }) {
-  const { id, name, className } = route.params;
+export function EditCharacter({ navigation, route }) {
+  const dispatch = useDispatch();
+  const { action, character } = route.params;
 
+  const [name, setName] = useState(character?.name);
   const [classPicker, setClassPicker] = useState({
-    value: className,
+    value: character?.character_class ?? "Guerreiro",
     visible: false,
   });
+  const [level, setLevel] = useState(character?.level.toString());
+  const [strength, setStrength] = useState(character?.strength.toString());
+  const [dexterity, setDexterity] = useState(character?.dexterity.toString());
+  const [constitution, setConstitution] = useState(
+    character?.constitution.toString()
+  );
+  const [intelligence, setIntelligence] = useState(
+    character?.intelligence.toString()
+  );
+  const [wisdom, setWisdom] = useState(character?.wisdom.toString());
+  const [charisma, setCharisma] = useState(character?.charisma.toString());
+
+  const handleUpdateCharacter = async () => {
+    loading(dispatch, { active: true, label: "Enviando dados..." });
+
+    if (action === "create") {
+      if (
+        name &&
+        classPicker.value &&
+        level &&
+        strength &&
+        dexterity &&
+        constitution &&
+        intelligence &&
+        wisdom &&
+        charisma
+      ) {
+        await createCharacter({
+          name,
+          character_class: classPicker.value,
+          level: Number(level),
+          strength: Number(strength),
+          dexterity: Number(dexterity),
+          constitution: Number(constitution),
+          intelligence: Number(intelligence),
+          wisdom: Number(wisdom),
+          charisma: Number(charisma),
+        });
+
+        loading(dispatch, { active: false, label: "", delay: 2000 });
+        return navigation.goBack();
+      }
+    }
+
+    if (action === "edit") {
+      if (
+        name &&
+        classPicker.value &&
+        level &&
+        strength &&
+        dexterity &&
+        constitution &&
+        intelligence &&
+        wisdom &&
+        charisma
+      ) {
+        await updateCharacter(character.id, {
+          name,
+          character_class: classPicker.value,
+          level: Number(level),
+          strength: Number(strength),
+          dexterity: Number(dexterity),
+          constitution: Number(constitution),
+          intelligence: Number(intelligence),
+          wisdom: Number(wisdom),
+          charisma: Number(charisma),
+        });
+
+        loading(dispatch, { active: false, label: "", delay: 2000 });
+        return navigation.goBack();
+      }
+    }
+
+    return loading(dispatch, { active: false, label: "", delay: 2000 });
+  };
+
+  const handleDeleteCharacter = async () => {
+    loading(dispatch, { active: true, label: "Enviando dados..." });
+
+    await deleteCharacter(character.id);
+    navigation.goBack();
+
+    loading(dispatch, { active: false, label: "", delay: 2000 });
+  };
 
   return (
     <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
@@ -45,6 +138,8 @@ export function EditCharacter({ route }) {
               label="Nome"
               placeholder="Nome do personagem..."
               containerStyle={{ width: "100%" }}
+              value={name}
+              onChangeText={setName}
             />
 
             <View style={styles.divider} />
@@ -75,6 +170,8 @@ export function EditCharacter({ route }) {
               keyboardType="numeric"
               containerStyle={{ width: "100%" }}
               placeholder="0"
+              value={level}
+              onChangeText={setLevel}
             />
 
             <View style={styles.divider} />
@@ -94,6 +191,8 @@ export function EditCharacter({ route }) {
                     cursorColor="#cccccc65"
                     keyboardType="numeric"
                     style={styles.inputAttribute}
+                    value={strength}
+                    onChangeText={setStrength}
                   />
                 </View>
 
@@ -106,6 +205,8 @@ export function EditCharacter({ route }) {
                     cursorColor="#cccccc65"
                     keyboardType="numeric"
                     style={styles.inputAttribute}
+                    value={dexterity}
+                    onChangeText={setDexterity}
                   />
                 </View>
 
@@ -118,6 +219,8 @@ export function EditCharacter({ route }) {
                     cursorColor="#cccccc65"
                     keyboardType="numeric"
                     style={styles.inputAttribute}
+                    value={constitution}
+                    onChangeText={setConstitution}
                   />
                 </View>
 
@@ -130,6 +233,8 @@ export function EditCharacter({ route }) {
                     cursorColor="#cccccc65"
                     keyboardType="numeric"
                     style={styles.inputAttribute}
+                    value={intelligence}
+                    onChangeText={setIntelligence}
                   />
                 </View>
 
@@ -142,6 +247,8 @@ export function EditCharacter({ route }) {
                     cursorColor="#cccccc65"
                     keyboardType="numeric"
                     style={styles.inputAttribute}
+                    value={wisdom}
+                    onChangeText={setWisdom}
                   />
                 </View>
 
@@ -154,6 +261,8 @@ export function EditCharacter({ route }) {
                     cursorColor="#cccccc65"
                     keyboardType="numeric"
                     style={styles.inputAttribute}
+                    value={charisma}
+                    onChangeText={setCharisma}
                   />
                 </View>
               </View>
@@ -162,15 +271,27 @@ export function EditCharacter({ route }) {
 
           <View style={styles.containerUpdateButtons}>
             <TouchableOpacity
+              disabled={action === "create" ? true : false}
               activeOpacity={0.9}
-              style={[styles.buttonUpdate, { backgroundColor: Colors.red }]}
+              style={[
+                styles.buttonUpdate,
+                {
+                  backgroundColor: action === "create" ? "#606060" : Colors.red,
+                },
+              ]}
+              onPress={handleDeleteCharacter}
             >
-              <ImageView image={Delete} width={20} />
+              <ImageView
+                image={Delete}
+                width={20}
+                style={{ opacity: action === "create" ? 0.3 : 1 }}
+              />
             </TouchableOpacity>
 
             <TouchableOpacity
               activeOpacity={0.9}
               style={[styles.buttonUpdate, { backgroundColor: Colors.green }]}
+              onPress={handleUpdateCharacter}
             >
               <ImageView image={Save} width={20} />
             </TouchableOpacity>

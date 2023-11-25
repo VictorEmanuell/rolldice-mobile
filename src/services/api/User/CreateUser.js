@@ -10,14 +10,15 @@ export async function createUser({ name, email, password }, callback) {
         const user = userCredential.user;
 
         await api
-          .post("/user", {
+          .post("/users", {
             id: user.uid,
             name,
             email: user.email,
           })
           .then(callback)
-          .catch(async () => {
+          .catch(async (error) => {
             await user.delete();
+            console.log(error)
             ToastAndroid.show("Ocorreu um erro!", ToastAndroid.SHORT);
           });
       })

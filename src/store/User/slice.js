@@ -12,7 +12,7 @@ export const userSlice = createSlice({
       state.characters = action.payload.characters;
     },
     setUserCharacterSelected(state, action) {
-      state.characterSelected = action.payload.characterSelected;
+      state.characterSelected = action.payload;
     },
   },
 });

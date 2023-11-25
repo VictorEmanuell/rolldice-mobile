@@ -5,7 +5,7 @@ export const armorInitialState = {
   slot2_name: "",
   slot2_defense: null,
   slot2_penalty: null,
-  attribute: "",
-  use_atribute: false,
+  defense_attribute: "DES",
+  use_attribute: false,
   others: null,
 };

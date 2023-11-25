@@ -8,7 +8,7 @@ import { ImageView } from "../../components/ImageView";
 import { ClassIcon } from "../../assets/Icons/classes";
 import Edit from "../../assets/Icons/edit.png";
 
-export function CharacterCard({ item: { id, name, className }, navigation }) {
+export function CharacterCard({ item, navigation }) {
   return (
     <View
       style={{
@@ -18,6 +18,7 @@ export function CharacterCard({ item: { id, name, className }, navigation }) {
       }}
     >
       <TouchableOpacity
+        disabled={true}
         activeOpacity={0.9}
         style={{
           backgroundColor: Colors.lightPurple,
@@ -29,7 +30,7 @@ export function CharacterCard({ item: { id, name, className }, navigation }) {
           width: "20%",
         }}
       >
-        <ImageView image={ClassIcon(className)} width={"100%"} />
+        <ImageView image={ClassIcon(item.character_class)} width={"100%"} />
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -39,7 +40,7 @@ export function CharacterCard({ item: { id, name, className }, navigation }) {
         <Text
           style={{ fontFamily: Fonts.regular, fontSize: 15, color: "white" }}
         >
-          {name}
+          {item.name}
         </Text>
       </TouchableOpacity>
 
@@ -55,7 +56,10 @@ export function CharacterCard({ item: { id, name, className }, navigation }) {
           width: "20%",
         }}
         onPress={() =>
-          navigation.navigate("EditCharacter", { id, name, className })
+          navigation.navigate("EditCharacter", {
+            action: "edit",
+            character: item,
+          })
         }
       >
         <ImageView image={Edit} width={"100%"} />
