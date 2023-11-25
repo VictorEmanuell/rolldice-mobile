@@ -9,6 +9,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector, useDispatch } from "react-redux";
+import { loading } from "../../../utils/Loading";
+import {
+  getDefense,
+  updateDefense,
+  deleteDefense,
+} from "../../../services/api/Defense";
 
 import Colors from "../../../assets/Colors";
 
@@ -24,24 +31,42 @@ import Save from "../../../assets/Icons/save.png";
 import { ATRIBUTES } from "../../../constants";
 
 export function Armor() {
+  const dispatch = useDispatch();
+  const { characterSelected } = useSelector((store) => store.user);
+  const defense = useSelector((store) => store.armor);
+
+  useEffect(() => {
+    if (characterSelected) {
+      pullDefense();
+    }
+  }, [characterSelected]);
+
   // Hooks
 
-  const [slot1Name, setSlot1Name] = useState("");
-  const [slot1Defense, setSlot1Defense] = useState("");
-  const [slot1Penalty, setSlot1Penalty] = useState("");
+  const [slot1Name, setSlot1Name] = useState(defense.slot1_name);
+  const [slot1Defense, setSlot1Defense] = useState(
+    defense.slot1_defense?.toString()
+  );
+  const [slot1Penalty, setSlot1Penalty] = useState(
+    defense.slot1_penalty?.toString()
+  );
 
-  const [slot2Name, setSlot2Name] = useState("");
-  const [slot2Defense, setSlot2Defense] = useState("");
-  const [slot2Penalty, setSlot2Penalty] = useState("");
+  const [slot2Name, setSlot2Name] = useState(defense.slot2_name);
+  const [slot2Defense, setSlot2Defense] = useState(
+    defense.slot2_defense?.toString()
+  );
+  const [slot2Penalty, setSlot2Penalty] = useState(
+    defense.slot1_penalty?.toString()
+  );
 
-  const [useAttribute, setUseAttribute] = useState(false);
+  const [useAttribute, setUseAttribute] = useState(defense.use_attribute);
 
   const [attriburePicker, setAttributePicker] = useState({
-    value: "DES",
+    value: defense.defense_attribute,
     visible: false,
   });
 
-  const [others, setOthers] = useState();
+  const [others, setOthers] = useState(defense.others?.toString());
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
@@ -60,6 +85,62 @@ export function Armor() {
       keyboardDidShowListener.remove();
     };
   }, []);
+
+  const pullDefense = async () => {
+    const result = await getDefense(characterSelected);
+    
+    if (result && result !== "error") {
+      setSlot1Name(result.slot1_name);
+      setSlot1Defense(result.slot1_defense.toString());
+      setSlot1Penalty(result.slot1_penalty.toString());
+      setSlot2Name(result.slot2_name);
+      setSlot2Defense(result.slot2_defense.toString());
+      setSlot2Penalty(result.slot2_penalty.toString());
+      setUseAttribute(result.use_attribute);
+      setAttributePicker({ value: result.defense_attribute, visible: false });
+      setOthers(result.others.toString());
+    }
+  };
+
+  const handleUpdateDefense = async () => {
+    loading(dispatch, { active: true, label: "Enviando dados..." });
+
+    if (
+      slot1Name &&
+      slot1Defense &&
+      slot1Penalty &&
+      slot2Name &&
+      slot2Defense &&
+      slot2Penalty &&
+      useAttribute &&
+      attriburePicker.value &&
+      others
+    ) {
+      await updateDefense(characterSelected, {
+        slot1_name: slot1Name,
+        slot1_defense: Number(slot1Defense),
+        slot1_penalty: Number(slot1Penalty),
+        slot2_name: slot2Name,
+        slot2_defense: Number(slot2Defense),
+        slot2_penalty: Number(slot2Penalty),
+        use_attribute: useAttribute,
+        defense_attribure: attriburePicker.value,
+        others: Number(others),
+      });
+
+      loading(dispatch, { active: false, label: "", delay: 2000 });
+    }
+
+    return loading(dispatch, { active: false, label: "", delay: 2000 });
+  };
+
+  const handleDeleteDefense = async () => {
+    loading(dispatch, { active: true, label: "Enviando dados..." });
+
+    await deleteDefense(characterSelected);
+
+    loading(dispatch, { active: false, label: "", delay: 2000 });
+  };
 
   return (
     <SafeAreaView edges={["right", "top", "left"]} style={{ flex: 1 }}>
@@ -289,6 +370,7 @@ export function Armor() {
               <TouchableOpacity
                 activeOpacity={0.9}
                 style={[styles.buttonUpdate, { backgroundColor: Colors.red }]}
+                onPress={handleDeleteDefense}
               >
                 <ImageView image={Delete} width={20} />
               </TouchableOpacity>
@@ -296,6 +378,7 @@ export function Armor() {
               <TouchableOpacity
                 activeOpacity={0.9}
                 style={[styles.buttonUpdate, { backgroundColor: Colors.green }]}
+                onPress={handleUpdateDefense}
               >
                 <ImageView image={Save} width={20} />
               </TouchableOpacity>

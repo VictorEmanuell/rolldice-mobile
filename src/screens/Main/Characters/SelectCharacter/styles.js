@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
   },
   flatList: {
     width: "100%",
-    gap: 20,
+    gap: 15,
     paddingBottom: "25%",
   },
   buttonCreateCharacter: {

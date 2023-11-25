@@ -1,4 +1,6 @@
+import { ToastAndroid } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useSelector } from "react-redux";
 
 import Colors from "../../../assets/Colors";
 
@@ -25,6 +27,8 @@ const Icons = [
 ];
 
 export function Main() {
+  const { characterSelected } = useSelector((store) => store.user);
+
   return (
     <Navigator
       backBehavior="none"
@@ -59,6 +63,14 @@ export function Main() {
       })}
       sceneContainerStyle={{ backgroundColor: Colors.background }}
       detachInactiveScreens={false}
+      screenListeners={{
+        tabPress: (e) => {
+          if (!characterSelected) {
+            e.preventDefault();
+            ToastAndroid.show("Selecione um personagem!", ToastAndroid.SHORT);
+          }
+        },
+      }}
     >
       <Screen name="Skills" component={Skills} />
       <Screen name="Attacks" component={Attacks} />

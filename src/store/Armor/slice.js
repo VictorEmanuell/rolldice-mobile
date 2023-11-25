@@ -12,7 +12,7 @@ export const armorSlice = createSlice({
       state.slot2_name = action.payload.slot2_name;
       state.slot2_defense = action.payload.slot2_defense;
       state.slot2_penalty = action.payload.slot2_penalty;
-      state.use_atribute = action.payload.use_atribute;
+      state.use_attribute = action.payload.use_attribute;
       state.attribute = action.payload.attribute;
       state.others = action.payload.others;
     },
