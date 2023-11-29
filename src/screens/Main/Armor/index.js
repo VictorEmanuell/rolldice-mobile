@@ -16,6 +16,7 @@ import {
   updateDefense,
   deleteDefense,
 } from "../../../services/api/Defense";
+import { setArmor, resetArmor } from "../../../store/Armor/actions";
 
 import Colors from "../../../assets/Colors";
 
@@ -35,38 +36,40 @@ export function Armor() {
   const { characterSelected } = useSelector((store) => store.user);
   const defense = useSelector((store) => store.armor);
 
-  useEffect(() => {
-    if (characterSelected) {
-      pullDefense();
-    }
-  }, [characterSelected]);
+  // useEffect(() => {
+  //   // reset states
+
+  //   setInputs(inputsInitialState);
+  //   setAttributePicker({ value: "DES", visible: false });
+  //   setUseAttribute(false);
+
+  //   if (characterSelected) {
+  //     pullDefense();
+  //   }
+  // }, [characterSelected]);
+  
+  // console.log(defense);
+  // useEffect(() => {
+  // }, [defense]);
 
   // Hooks
 
-  const [slot1Name, setSlot1Name] = useState(defense.slot1_name);
-  const [slot1Defense, setSlot1Defense] = useState(
-    defense.slot1_defense?.toString()
-  );
-  const [slot1Penalty, setSlot1Penalty] = useState(
-    defense.slot1_penalty?.toString()
-  );
+  const inputsInitialState = {
+    slot1_name: "",
+    slot1_defense: null,
+    slot1_penalty: null,
+    slot2_name: "",
+    slot2_defense: null,
+    slot2_penalty: null,
+    others: null,
+  };
 
-  const [slot2Name, setSlot2Name] = useState(defense.slot2_name);
-  const [slot2Defense, setSlot2Defense] = useState(
-    defense.slot2_defense?.toString()
-  );
-  const [slot2Penalty, setSlot2Penalty] = useState(
-    defense.slot1_penalty?.toString()
-  );
-
+  const [inputs, setInputs] = useState(inputsInitialState);
   const [useAttribute, setUseAttribute] = useState(defense.use_attribute);
-
   const [attriburePicker, setAttributePicker] = useState({
     value: defense.defense_attribute,
     visible: false,
   });
-
-  const [others, setOthers] = useState(defense.others?.toString());
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
 
@@ -88,56 +91,62 @@ export function Armor() {
 
   const pullDefense = async () => {
     const result = await getDefense(characterSelected);
-    
-    if (result && result !== "error") {
-      setSlot1Name(result.slot1_name);
-      setSlot1Defense(result.slot1_defense.toString());
-      setSlot1Penalty(result.slot1_penalty.toString());
-      setSlot2Name(result.slot2_name);
-      setSlot2Defense(result.slot2_defense.toString());
-      setSlot2Penalty(result.slot2_penalty.toString());
-      setUseAttribute(result.use_attribute);
+
+    if (result !== "empty" && result !== "error") {
+      setInputs((state) => {
+        let newState = Object.assign({}, result);
+
+        if (
+          result.defense_attribute &&
+          result.use_attribute &&
+          result.character_id
+        ) {
+          delete newState.defense_attribute;
+          delete newState.use_attribute;
+          delete newState.character_id;
+        }
+
+        return {
+          ...state,
+          ...newState,
+        };
+      });
+
       setAttributePicker({ value: result.defense_attribute, visible: false });
-      setOthers(result.others.toString());
+
+      setUseAttribute(result.use_attribute);
+
+      dispatch(setArmor({ ...result }));
     }
   };
 
   const handleUpdateDefense = async () => {
     loading(dispatch, { active: true, label: "Enviando dados..." });
 
-    if (
-      slot1Name &&
-      slot1Defense &&
-      slot1Penalty &&
-      slot2Name &&
-      slot2Defense &&
-      slot2Penalty &&
-      useAttribute &&
-      attriburePicker.value &&
-      others
-    ) {
-      await updateDefense(characterSelected, {
-        slot1_name: slot1Name,
-        slot1_defense: Number(slot1Defense),
-        slot1_penalty: Number(slot1Penalty),
-        slot2_name: slot2Name,
-        slot2_defense: Number(slot2Defense),
-        slot2_penalty: Number(slot2Penalty),
-        use_attribute: useAttribute,
-        defense_attribure: attriburePicker.value,
-        others: Number(others),
-      });
+    const newDefense = await updateDefense(characterSelected, {
+      slot1_name: inputs.slot1_name,
+      slot1_defense: Number(inputs.slot1_defense),
+      slot1_penalty: Number(inputs.slot1_penalty),
+      slot2_name: inputs.slot2_name,
+      slot2_defense: Number(inputs.slot2_defense),
+      slot2_penalty: Number(inputs.slot2_penalty),
+      use_attribute: useAttribute,
+      defense_attribure: attriburePicker.value,
+      others: Number(inputs.others),
+    });
 
-      loading(dispatch, { active: false, label: "", delay: 2000 });
+    if (newDefense) {
+      dispatch(setArmor({ ...newDefense }));
     }
 
-    return loading(dispatch, { active: false, label: "", delay: 2000 });
+    loading(dispatch, { active: false, label: "", delay: 2000 });
   };
 
   const handleDeleteDefense = async () => {
     loading(dispatch, { active: true, label: "Enviando dados..." });
 
     await deleteDefense(characterSelected);
+    dispatch(resetArmor());
 
     loading(dispatch, { active: false, label: "", delay: 2000 });
   };
@@ -168,8 +177,10 @@ export function Armor() {
                       maxLength={14}
                       placeholder="Armadura"
                       placeholderTextColor="#cccccc80"
-                      value={slot1Name}
-                      onChangeText={setSlot1Name}
+                      value={inputs.slot1_name}
+                      onChangeText={(value) =>
+                        setInputs((state) => ({ ...state, slot1_name: value }))
+                      }
                     />
                   </View>
 
@@ -183,8 +194,15 @@ export function Armor() {
                       maxLength={3}
                       keyboardType="numeric"
                       placeholder="0"
-                      value={slot1Defense}
-                      onChangeText={setSlot1Defense}
+                      value={
+                        inputs.slot1_defense ? String(inputs.slot1_defense) : ""
+                      }
+                      onChangeText={(value) =>
+                        setInputs((state) => ({
+                          ...state,
+                          slot1_defense: value,
+                        }))
+                      }
                     />
                   </View>
 
@@ -198,8 +216,15 @@ export function Armor() {
                       maxLength={3}
                       keyboardType="numeric"
                       placeholder="0"
-                      value={slot1Penalty}
-                      onChangeText={setSlot1Penalty}
+                      value={
+                        inputs.slot1_penalty ? String(inputs.slot1_penalty) : ""
+                      }
+                      onChangeText={(value) =>
+                        setInputs((state) => ({
+                          ...state,
+                          slot1_penalty: value,
+                        }))
+                      }
                     />
                   </View>
                 </View>
@@ -218,8 +243,10 @@ export function Armor() {
                       maxLength={14}
                       placeholder="Escudo"
                       placeholderTextColor="#cccccc80"
-                      value={slot2Name}
-                      onChangeText={setSlot2Name}
+                      value={inputs.slot2_name}
+                      onChangeText={(value) =>
+                        setInputs((state) => ({ ...state, slot2_name: value }))
+                      }
                     />
                   </View>
 
@@ -233,8 +260,15 @@ export function Armor() {
                       maxLength={3}
                       keyboardType="numeric"
                       placeholder="0"
-                      value={slot2Defense}
-                      onChangeText={setSlot2Defense}
+                      value={
+                        inputs.slot2_defense ? String(inputs.slot2_defense) : ""
+                      }
+                      onChangeText={(value) =>
+                        setInputs((state) => ({
+                          ...state,
+                          slot2_defense: value,
+                        }))
+                      }
                     />
                   </View>
 
@@ -248,8 +282,15 @@ export function Armor() {
                       maxLength={3}
                       keyboardType="numeric"
                       placeholder="0"
-                      value={slot2Penalty}
-                      onChangeText={setSlot2Penalty}
+                      value={
+                        inputs.slot2_penalty ? String(inputs.slot2_penalty) : ""
+                      }
+                      onChangeText={(value) =>
+                        setInputs((state) => ({
+                          ...state,
+                          slot2_penalty: value,
+                        }))
+                      }
                     />
                   </View>
                 </View>
@@ -311,7 +352,7 @@ export function Armor() {
 
                     <View style={styles.boxArmorBonus}>
                       <Text style={styles.textArmorBonus}>
-                        {slot1Defense ? slot1Defense : 0}
+                        {inputs.slot1_defense ? inputs.slot1_defense : 0}
                       </Text>
                     </View>
                   </View>
@@ -325,7 +366,7 @@ export function Armor() {
 
                     <View style={styles.boxShieldBonus}>
                       <Text style={styles.textShieldBonus}>
-                        {slot2Defense ? slot2Defense : 0}
+                        {inputs.slot2_defense ? inputs.slot2_defense : 0}
                       </Text>
                     </View>
                   </View>
@@ -345,8 +386,10 @@ export function Armor() {
                       maxLength={3}
                       editable={useAttribute}
                       placeholder="0"
-                      value={others}
-                      onChangeText={setOthers}
+                      value={inputs.others ? String(inputs.others) : ""}
+                      onChangeText={(value) =>
+                        setInputs((state) => ({ ...state, others: value }))
+                      }
                     />
 
                     <Text style={styles.fixedBonus}>+ 10</Text>

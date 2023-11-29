@@ -7,18 +7,17 @@ export async function getDefense(id) {
     const token = await getIdToken(auth.currentUser);
 
     const defense = await api
-      .get(
-        `/defenses/${id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
+      .get(`/defenses/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => res.data)
       .catch(async (error) => {
         throw error;
       });
+
+    if (!defense) return "empty";
 
     return defense;
   } catch {
@@ -56,20 +55,18 @@ export async function deleteDefense(id) {
     const token = await getIdToken(auth.currentUser);
 
     await api
-      .delete(
-        `/defenses/${id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      )
+      .delete(`/defenses/${id}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((res) => res)
       .catch(async (error) => {
-        throw error;
+        console.log(error);
+        // throw error;
       });
 
-    return 'success';
+    return "success";
   } catch {
     throw "error";
   }

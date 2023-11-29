@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { signOut } from "firebase/auth";
@@ -12,8 +12,11 @@ import { CharacterCard } from "../../../../components/CharacterCard";
 
 export function SelectCharacter({ navigation }) {
   const dispatch = useDispatch();
-  const { characters } = useSelector((store) => store.user);
+  const { characters, characterSelected } = useSelector((store) => store.user);
 
+  useEffect(() => {
+    
+  }, [characterSelected])
   // const handleSignOut = () => {
   //   loading(dispatch, { active: true, label: "Saindo..." });
   //   signOut(auth)

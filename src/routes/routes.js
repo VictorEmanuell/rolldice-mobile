@@ -24,6 +24,7 @@ import { Auth } from "./stacks/Auth";
 import { Main } from "./stacks/Main";
 
 import { Loading } from "../components/Loading";
+import { pullUser } from "../store/User/thunks";
 
 export default function Routes() {
   const dispatch = useDispatch();
@@ -34,17 +35,22 @@ export default function Routes() {
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      const { userBasicInfo, characters } = await getUserInfo(
-        user.stsTokenManager.accessToken
-      );
-      dispatch(
-        setUser({
-          id: user.uid,
-          name: userBasicInfo.name,
-          email: userBasicInfo.email,
-          characters,
-        })
-      );
+      // console.log(user.stsTokenManager.accessToken);
+
+      // const { userBasicInfo, characters } = await getUserInfo(
+      //   user.stsTokenManager.accessToken
+      // );
+
+      // dispatch(
+      //   setUser({
+      //     id: user.uid,
+      //     name: userBasicInfo.name,
+      //     email: userBasicInfo.email,
+      //     characters,
+      //   })
+      // );
+
+      dispatch(pullUser(user.stsTokenManager.accessToken));
 
       if (
         navigationRef.current &&

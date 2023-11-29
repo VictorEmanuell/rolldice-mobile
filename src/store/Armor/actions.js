@@ -1,3 +1,3 @@
 import { armorSlice } from "./slice";
 
-export const { setArmor } = armorSlice.actions;
+export const { setArmor, resetArmor } = armorSlice.actions;
