@@ -28,7 +28,7 @@ import { ImageView } from "../../../components/ImageView";
 import Delete from "../../../assets/Icons/delete.png";
 import Save from "../../../assets/Icons/save.png";
 
-import { ATRIBUTES } from "../../../constants";
+import { ATTRIBUTES } from "../../../constants";
 
 export function Armor() {
   const dispatch = useDispatch();
@@ -330,7 +330,7 @@ export function Armor() {
                     </Text>
                   </TouchableOpacity>
                   <WheelPicker
-                    data={ATRIBUTES}
+                    data={ATTRIBUTES}
                     picker={attriburePicker}
                     setPicker={setAttributePicker}
                   />

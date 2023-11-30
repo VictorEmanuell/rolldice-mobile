@@ -1,12 +1,12 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { useDispatch } from "react-redux";
-import { setLoading } from "../../store/Loading/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { loading } from "../../utils/Loading";
 
 import Colors from "../../assets/Colors";
 
@@ -18,9 +18,11 @@ import { WheelPicker } from "../WheelPicker";
 import Dice from "../../assets/Icons/dice.png";
 import Save from "../../assets/Icons/save.png";
 
-import { ATRIBUTES } from "../../constants";
+import { ATTRIBUTES } from "../../constants";
 
 const OTHERS = [];
+
+import { attributeKey } from "../../utils/Attributes";
 
 for (let i = -50; i < 51; i++) {
   OTHERS.push(i);
@@ -28,18 +30,19 @@ for (let i = -50; i < 51; i++) {
 
 export function SkillCard({ item: skill }) {
   const dispatch = useDispatch();
+  const { attributes } = useSelector((store) => store.character);
 
   // Hooks
 
-  const [trained, setTrained] = useState(skill.trained);
+  const [trained, setTrained] = useState(skill.modifier?.trained);
 
   const [attriburePicker, setAttributePicker] = useState({
-    value: "DES",
+    value: skill.modifier?.character_attribute ?? "DES",
     visible: false,
   });
 
   const [othersPicker, setOthersPicker] = useState({
-    value: 1,
+    value: skill.modifier?.others ?? 0,
     visible: false,
   });
 
@@ -65,7 +68,7 @@ export function SkillCard({ item: skill }) {
   };
 
   const saveChanges = () => {
-    dispatch(setLoading({ active: true, label: "Salvando..." }));
+    loading(dispatch, { active: true, label: "Salvando..." });
 
     console.log({
       skill_id: skill.skill_id,
@@ -76,10 +79,8 @@ export function SkillCard({ item: skill }) {
       others: othersPicker.value,
     });
 
+    loading(dispatch, { active: true, delay: 2000 });
     saveChangesOut();
-    setTimeout(() => {
-      dispatch(setLoading({ active: false, label: "" }));
-    }, 5000);
   };
 
   return (
@@ -141,7 +142,11 @@ export function SkillCard({ item: skill }) {
             <Text style={styles.textItem}>Total</Text>
 
             <View style={styles.boxItemValue}>
-              <Text style={styles.textItemValue}>1</Text>
+              <Text style={styles.textItemValue}>
+                {attributes[attributeKey(attriburePicker.value)] +
+                  (trained ? 2 : 0) +
+                  othersPicker.value}
+              </Text>
             </View>
           </View>
 
@@ -169,7 +174,7 @@ export function SkillCard({ item: skill }) {
           <WheelPicker
             picker={attriburePicker}
             setPicker={setAttributePicker}
-            data={ATRIBUTES}
+            data={ATTRIBUTES}
           />
 
           <Text style={styles.textOperators}>+</Text>
@@ -178,7 +183,7 @@ export function SkillCard({ item: skill }) {
             <Text style={styles.textItem}>Treino</Text>
 
             <View style={styles.boxItemValue}>
-              <Text style={styles.textItemValue}>1</Text>
+              <Text style={styles.textItemValue}>{trained ? 2 : 0}</Text>
             </View>
           </View>
 

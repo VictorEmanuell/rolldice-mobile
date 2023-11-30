@@ -1,4 +1,4 @@
-export const ATRIBUTES = ["DES", "CON", "INT", "FOR", "SAB", "CAR"];
+export const ATTRIBUTES = ["DES", "CON", "INT", "FOR", "SAB", "CAR"];
 
 export const CLASSES = [
   "Arcanista",

@@ -12,6 +12,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
+import { useDispatch, useSelector } from "react-redux";
 import * as JsSearch from "js-search";
 import { FlatList } from "react-native-gesture-handler";
 
@@ -24,6 +25,9 @@ import { ImageView } from "../../../components/ImageView";
 import { SkillCard } from "../../../components/SkillCard";
 
 export function Skills() {
+  const dispatch = useDispatch();
+  const { skills } = useSelector((store) => store.character);
+
   // Hooks
   const [inputFocused, setInputFocused] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -66,7 +70,7 @@ export function Skills() {
   }, [inputFocused]);
 
   return (
-    <SafeAreaView edges={['right', 'top', 'left']} style={{ flex: 1 }}>
+    <SafeAreaView edges={["right", "top", "left"]} style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container} onStartShouldSetResponder={() => true}>
           <Animated.View
@@ -106,7 +110,7 @@ export function Skills() {
               contentContainerStyle={styles.flatList}
               showsVerticalScrollIndicator={false}
               data={searchInput ? searchResult : skills}
-              keyExtractor={(item) => item.skill_id}
+              keyExtractor={(item) => item.id}
               renderItem={(props) => <SkillCard {...props} />}
             />
           </View>
@@ -116,229 +120,229 @@ export function Skills() {
   );
 }
 
-const skills = [
-  {
-    skill_id: 1,
-    name: "Acrobacia+",
-    training: 1,
-    trained: false,
-    attribure: "DES",
-    others: 1,
-  },
-  {
-    skill_id: 2,
-    name: "Adestramento*",
-    training: 1,
-    trained: false,
-    attribure: "FOR",
-    others: 1,
-  },
-  {
-    skill_id: 3,
-    name: "Atletismo",
-    training: 1,
-    trained: false,
-    attribure: "CON",
-    others: 1,
-  },
-  {
-    skill_id: 4,
-    name: "Atuação*",
-    training: 1,
-    trained: false,
-    attribure: "INT",
-    others: 1,
-  },
-  {
-    skill_id: 5,
-    name: "Cavalgar",
-    training: 1,
-    trained: false,
-    attribure: "SAB",
-    others: 1,
-  },
-  {
-    skill_id: 6,
-    name: "Conhecimento*",
-    training: 1,
-    trained: false,
-    attribure: "CAR",
-    others: 1,
-  },
-  {
-    skill_id: 7,
-    name: "Cura",
-    training: 1,
-    trained: false,
-    attribure: "DES",
-    others: 1,
-  },
-  {
-    skill_id: 8,
-    name: "Diplomacia",
-    training: 1,
-    trained: false,
-    attribure: "FOR",
-    others: 1,
-  },
-  {
-    skill_id: 9,
-    name: "Enganação",
-    training: 1,
-    trained: false,
-    attribure: "CON",
-    others: 1,
-  },
-  {
-    skill_id: 10,
-    name: "Fortitude",
-    training: 1,
-    trained: false,
-    attribure: "INT",
-    others: 1,
-  },
-  {
-    skill_id: 11,
-    name: "Furtividade+",
-    training: 1,
-    trained: false,
-    attribure: "SAB",
-    others: 1,
-  },
-  {
-    skill_id: 12,
-    name: "Guerra*",
-    training: 1,
-    trained: false,
-    attribure: "CAR",
-    others: 1,
-  },
-  {
-    skill_id: 13,
-    name: "Iniciativa",
-    training: 1,
-    trained: false,
-    attribure: "DES",
-    others: 1,
-  },
-  {
-    skill_id: 14,
-    name: "Intimidação",
-    training: 1,
-    trained: false,
-    attribure: "FOR",
-    others: 1,
-  },
-  {
-    skill_id: 15,
-    name: "Jogatina*",
-    training: 1,
-    trained: false,
-    attribure: "CON",
-    others: 1,
-  },
-  {
-    skill_id: 16,
-    name: "Ladinagem+*",
-    training: 1,
-    trained: false,
-    attribure: "INT",
-    others: 1,
-  },
-  {
-    skill_id: 17,
-    name: "Luta",
-    training: 1,
-    trained: false,
-    attribure: "SAB",
-    others: 1,
-  },
-  {
-    skill_id: 18,
-    name: "Misticismo*",
-    training: 1,
-    trained: false,
-    attribure: "CAR",
-    others: 1,
-  },
-  {
-    skill_id: 19,
-    name: "Nobreza*",
-    training: 1,
-    trained: false,
-    attribure: "DES",
-    others: 1,
-  },
-  {
-    skill_id: 20,
-    name: "Ofício",
-    training: 1,
-    trained: false,
-    attribure: "FOR",
-    others: 1,
-  },
-  {
-    skill_id: 21,
-    name: "Ofício",
-    training: 1,
-    trained: false,
-    attribure: "CON",
-    others: 1,
-  },
-  {
-    skill_id: 22,
-    name: "Percepção",
-    training: 1,
-    trained: false,
-    attribure: "INT",
-    others: 1,
-  },
-  {
-    skill_id: 23,
-    name: "Pilotagem*",
-    training: 1,
-    trained: false,
-    attribure: "SAB",
-    others: 1,
-  },
-  {
-    skill_id: 24,
-    name: "Pontaria",
-    training: 1,
-    trained: false,
-    attribure: "CAR",
-    others: 1,
-  },
-  {
-    skill_id: 25,
-    name: "Reflexos",
-    training: 1,
-    trained: false,
-    attribure: "CON",
-    others: 1,
-  },
-  {
-    skill_id: 26,
-    name: "Religião*",
-    training: 1,
-    trained: false,
-    attribure: "INT",
-    others: 1,
-  },
-  {
-    skill_id: 27,
-    name: "Sobrevivência",
-    training: 1,
-    trained: false,
-    attribure: "SAB",
-    others: 1,
-  },
-  {
-    skill_id: 28,
-    name: "Vontade",
-    training: 1,
-    trained: false,
-    attribure: "CAR",
-    others: 1,
-  },
-];
+// const skills = [
+//   {
+//     skill_id: 1,
+//     name: "Acrobacia+",
+//     training: 1,
+//     trained: false,
+//     attribure: "DES",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 2,
+//     name: "Adestramento*",
+//     training: 1,
+//     trained: false,
+//     attribure: "FOR",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 3,
+//     name: "Atletismo",
+//     training: 1,
+//     trained: false,
+//     attribure: "CON",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 4,
+//     name: "Atuação*",
+//     training: 1,
+//     trained: false,
+//     attribure: "INT",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 5,
+//     name: "Cavalgar",
+//     training: 1,
+//     trained: false,
+//     attribure: "SAB",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 6,
+//     name: "Conhecimento*",
+//     training: 1,
+//     trained: false,
+//     attribure: "CAR",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 7,
+//     name: "Cura",
+//     training: 1,
+//     trained: false,
+//     attribure: "DES",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 8,
+//     name: "Diplomacia",
+//     training: 1,
+//     trained: false,
+//     attribure: "FOR",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 9,
+//     name: "Enganação",
+//     training: 1,
+//     trained: false,
+//     attribure: "CON",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 10,
+//     name: "Fortitude",
+//     training: 1,
+//     trained: false,
+//     attribure: "INT",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 11,
+//     name: "Furtividade+",
+//     training: 1,
+//     trained: false,
+//     attribure: "SAB",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 12,
+//     name: "Guerra*",
+//     training: 1,
+//     trained: false,
+//     attribure: "CAR",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 13,
+//     name: "Iniciativa",
+//     training: 1,
+//     trained: false,
+//     attribure: "DES",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 14,
+//     name: "Intimidação",
+//     training: 1,
+//     trained: false,
+//     attribure: "FOR",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 15,
+//     name: "Jogatina*",
+//     training: 1,
+//     trained: false,
+//     attribure: "CON",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 16,
+//     name: "Ladinagem+*",
+//     training: 1,
+//     trained: false,
+//     attribure: "INT",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 17,
+//     name: "Luta",
+//     training: 1,
+//     trained: false,
+//     attribure: "SAB",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 18,
+//     name: "Misticismo*",
+//     training: 1,
+//     trained: false,
+//     attribure: "CAR",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 19,
+//     name: "Nobreza*",
+//     training: 1,
+//     trained: false,
+//     attribure: "DES",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 20,
+//     name: "Ofício",
+//     training: 1,
+//     trained: false,
+//     attribure: "FOR",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 21,
+//     name: "Ofício",
+//     training: 1,
+//     trained: false,
+//     attribure: "CON",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 22,
+//     name: "Percepção",
+//     training: 1,
+//     trained: false,
+//     attribure: "INT",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 23,
+//     name: "Pilotagem*",
+//     training: 1,
+//     trained: false,
+//     attribure: "SAB",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 24,
+//     name: "Pontaria",
+//     training: 1,
+//     trained: false,
+//     attribure: "CAR",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 25,
+//     name: "Reflexos",
+//     training: 1,
+//     trained: false,
+//     attribure: "CON",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 26,
+//     name: "Religião*",
+//     training: 1,
+//     trained: false,
+//     attribure: "INT",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 27,
+//     name: "Sobrevivência",
+//     training: 1,
+//     trained: false,
+//     attribure: "SAB",
+//     others: 1,
+//   },
+//   {
+//     skill_id: 28,
+//     name: "Vontade",
+//     training: 1,
+//     trained: false,
+//     attribure: "CAR",
+//     others: 1,
+//   },
+// ];

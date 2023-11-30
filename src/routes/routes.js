@@ -5,8 +5,6 @@ import { useSelector } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../services/firebase";
 import { useDispatch } from "react-redux";
-import { setUser } from "../store/User/actions";
-import { getUserInfo } from "../services/api/User/GetUser";
 
 import Colors from "../assets/Colors";
 
@@ -24,7 +22,9 @@ import { Auth } from "./stacks/Auth";
 import { Main } from "./stacks/Main";
 
 import { Loading } from "../components/Loading";
+
 import { pullUser } from "../store/User/thunks";
+import { pullSkills } from "../store/SkillsStatic/thunks";
 
 export default function Routes() {
   const dispatch = useDispatch();
@@ -32,10 +32,10 @@ export default function Routes() {
   const [loadingStartUp, setLoadingStartUp] = useState(true);
 
   const navigationRef = useRef();
-  
+
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      // console.log(user.stsTokenManager.accessToken);
+      console.log(user.stsTokenManager.accessToken);
 
       // const { userBasicInfo, characters } = await getUserInfo(
       //   user.stsTokenManager.accessToken
@@ -50,6 +50,7 @@ export default function Routes() {
       //   })
       // );
 
+      dispatch(pullSkills());
       dispatch(pullUser(user.stsTokenManager.accessToken));
 
       if (
@@ -64,6 +65,8 @@ export default function Routes() {
           routes: [{ name: "Main" }],
         });
       }
+    } else {
+      setLoadingStartUp(false);
     }
   });
 
