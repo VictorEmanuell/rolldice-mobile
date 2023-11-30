@@ -32,7 +32,7 @@ export default function Routes() {
   const [loadingStartUp, setLoadingStartUp] = useState(true);
 
   const navigationRef = useRef();
-
+  
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       // console.log(user.stsTokenManager.accessToken);

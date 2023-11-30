@@ -16,7 +16,6 @@ import {
   updateDefense,
   deleteDefense,
 } from "../../../services/api/Defense";
-import { setArmor, resetArmor } from "../../../store/Armor/actions";
 
 import Colors from "../../../assets/Colors";
 
@@ -34,7 +33,7 @@ import { ATRIBUTES } from "../../../constants";
 export function Armor() {
   const dispatch = useDispatch();
   const { characterSelected } = useSelector((store) => store.user);
-  const defense = useSelector((store) => store.armor);
+  const { armor } = useSelector((store) => store.character);
 
   // useEffect(() => {
   //   // reset states
@@ -47,10 +46,25 @@ export function Armor() {
   //     pullDefense();
   //   }
   // }, [characterSelected]);
-  
+
   // console.log(defense);
   // useEffect(() => {
   // }, [defense]);
+
+  useEffect(() => {
+    let onlyInputs = Object.assign({}, armor);
+
+    delete onlyInputs.defense_attribute;
+    delete onlyInputs.use_attribute;
+    delete onlyInputs.character_id;
+
+    setInputs({ ...onlyInputs });
+    setAttributePicker({
+      value: armor?.defense_attribute ?? 'DES',
+      visible: false,
+    });
+    setUseAttribute(armor?.use_attribute);
+  }, [armor]);
 
   // Hooks
 
@@ -65,9 +79,9 @@ export function Armor() {
   };
 
   const [inputs, setInputs] = useState(inputsInitialState);
-  const [useAttribute, setUseAttribute] = useState(defense.use_attribute);
+  const [useAttribute, setUseAttribute] = useState(false);
   const [attriburePicker, setAttributePicker] = useState({
-    value: defense.defense_attribute,
+    value: "DES",
     visible: false,
   });
 
@@ -89,67 +103,67 @@ export function Armor() {
     };
   }, []);
 
-  const pullDefense = async () => {
-    const result = await getDefense(characterSelected);
+  // const pullDefense = async () => {
+  //   const result = await getDefense(characterSelected);
 
-    if (result !== "empty" && result !== "error") {
-      setInputs((state) => {
-        let newState = Object.assign({}, result);
+  //   if (result !== "empty" && result !== "error") {
+  //     setInputs((state) => {
+  //       let newState = Object.assign({}, result);
 
-        if (
-          result.defense_attribute &&
-          result.use_attribute &&
-          result.character_id
-        ) {
-          delete newState.defense_attribute;
-          delete newState.use_attribute;
-          delete newState.character_id;
-        }
+  //       if (
+  //         result.defense_attribute &&
+  //         result.use_attribute &&
+  //         result.character_id
+  //       ) {
+  //         delete newState.defense_attribute;
+  //         delete newState.use_attribute;
+  //         delete newState.character_id;
+  //       }
 
-        return {
-          ...state,
-          ...newState,
-        };
-      });
+  //       return {
+  //         ...state,
+  //         ...newState,
+  //       };
+  //     });
 
-      setAttributePicker({ value: result.defense_attribute, visible: false });
+  //     setAttributePicker({ value: result.defense_attribute, visible: false });
 
-      setUseAttribute(result.use_attribute);
+  //     setUseAttribute(result.use_attribute);
 
-      dispatch(setArmor({ ...result }));
-    }
-  };
+  //     dispatch(setArmor({ ...result }));
+  //   }
+  // };
 
-  const handleUpdateDefense = async () => {
-    loading(dispatch, { active: true, label: "Enviando dados..." });
+  // const handleUpdateDefense = async () => {
+  //   loading(dispatch, { active: true, label: "Enviando dados..." });
 
-    const newDefense = await updateDefense(characterSelected, {
-      slot1_name: inputs.slot1_name,
-      slot1_defense: Number(inputs.slot1_defense),
-      slot1_penalty: Number(inputs.slot1_penalty),
-      slot2_name: inputs.slot2_name,
-      slot2_defense: Number(inputs.slot2_defense),
-      slot2_penalty: Number(inputs.slot2_penalty),
-      use_attribute: useAttribute,
-      defense_attribure: attriburePicker.value,
-      others: Number(inputs.others),
-    });
+  //   const newDefense = await updateDefense(characterSelected, {
+  //     slot1_name: inputs.slot1_name,
+  //     slot1_defense: Number(inputs.slot1_defense),
+  //     slot1_penalty: Number(inputs.slot1_penalty),
+  //     slot2_name: inputs.slot2_name,
+  //     slot2_defense: Number(inputs.slot2_defense),
+  //     slot2_penalty: Number(inputs.slot2_penalty),
+  //     use_attribute: useAttribute,
+  //     defense_attribure: attriburePicker.value,
+  //     others: Number(inputs.others),
+  //   });
 
-    if (newDefense) {
-      dispatch(setArmor({ ...newDefense }));
-    }
+  //   if (newDefense) {
+  //     dispatch(setArmor({ ...newDefense }));
+  //   }
 
-    loading(dispatch, { active: false, label: "", delay: 2000 });
-  };
+  //   loading(dispatch, { active: false, label: "", delay: 2000 });
+  // };
 
-  const handleDeleteDefense = async () => {
-    loading(dispatch, { active: true, label: "Enviando dados..." });
+  // const handleDeleteDefense = async () => {
+  //   loading(dispatch, { active: true, label: "Enviando dados..." });
 
-    await deleteDefense(characterSelected);
-    dispatch(resetArmor());
+  //   await deleteDefense(characterSelected);
+  //   dispatch(resetArmor());
 
-    loading(dispatch, { active: false, label: "", delay: 2000 });
-  };
+  //   loading(dispatch, { active: false, label: "", delay: 2000 });
+  // };
 
   return (
     <SafeAreaView edges={["right", "top", "left"]} style={{ flex: 1 }}>
@@ -413,7 +427,7 @@ export function Armor() {
               <TouchableOpacity
                 activeOpacity={0.9}
                 style={[styles.buttonUpdate, { backgroundColor: Colors.red }]}
-                onPress={handleDeleteDefense}
+                // onPress={handleDeleteDefense}
               >
                 <ImageView image={Delete} width={20} />
               </TouchableOpacity>
@@ -421,7 +435,7 @@ export function Armor() {
               <TouchableOpacity
                 activeOpacity={0.9}
                 style={[styles.buttonUpdate, { backgroundColor: Colors.green }]}
-                onPress={handleUpdateDefense}
+                // onPress={handleUpdateDefense}
               >
                 <ImageView image={Save} width={20} />
               </TouchableOpacity>

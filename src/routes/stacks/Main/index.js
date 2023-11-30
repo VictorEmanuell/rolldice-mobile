@@ -65,7 +65,6 @@ export function Main() {
       detachInactiveScreens={false}
       screenListeners={{
         tabPress: (e) => {
-          console.log(e);
           if (!characterSelected) {
             e.preventDefault();
             ToastAndroid.show("Selecione um personagem!", ToastAndroid.SHORT);

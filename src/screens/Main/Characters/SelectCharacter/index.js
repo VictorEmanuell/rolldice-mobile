@@ -1,22 +1,23 @@
 import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { signOut } from "firebase/auth";
-import { auth } from "../../../../services/firebase";
 import { useDispatch, useSelector } from "react-redux";
-import { loading } from "../../../../utils/Loading";
 
 import { styles } from "./styles";
 
 import { CharacterCard } from "../../../../components/CharacterCard";
+import { pullCharacter } from "../../../../store/Character/thunks";
 
 export function SelectCharacter({ navigation }) {
   const dispatch = useDispatch();
   const { characters, characterSelected } = useSelector((store) => store.user);
 
   useEffect(() => {
-    
-  }, [characterSelected])
+    if (characterSelected) {
+      dispatch(pullCharacter(characterSelected, dispatch));
+    }
+  }, [characterSelected]);
+
   // const handleSignOut = () => {
   //   loading(dispatch, { active: true, label: "Saindo..." });
   //   signOut(auth)

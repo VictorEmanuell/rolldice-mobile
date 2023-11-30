@@ -14,7 +14,7 @@ import {
   createCharacter,
   deleteCharacter,
   updateCharacter,
-} from "../../../../services/api/Characters";
+} from "../../../../services/api/Character";
 import { loading } from "../../../../utils/Loading";
 import { useDispatch } from "react-redux";
 

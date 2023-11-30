@@ -2,28 +2,28 @@ import { api } from "../index";
 import { getIdToken } from "firebase/auth";
 import { auth } from "../../firebase";
 
-export async function getDefense(id) {
-  try {
-    const token = await getIdToken(auth.currentUser);
+// export async function getDefense(id) {
+//   try {
+//     const token = await getIdToken(auth.currentUser);
 
-    const defense = await api
-      .get(`/defenses/${id}`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((res) => res.data)
-      .catch(async (error) => {
-        throw error;
-      });
+//     const defense = await api
+//       .get(`/defenses/${id}`, {
+//         headers: {
+//           Authorization: "Bearer " + token,
+//         },
+//       })
+//       .then((res) => res.data)
+//       .catch(async (error) => {
+//         throw error;
+//       });
 
-    if (!defense) return "empty";
+//     if (!defense) return "empty";
 
-    return defense;
-  } catch {
-    throw "error";
-  }
-}
+//     return defense;
+//   } catch {
+//     throw "error";
+//   }
+// }
 
 export async function updateDefense(id, data) {
   try {
