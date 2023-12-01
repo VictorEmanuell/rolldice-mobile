@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { characterInitialState } from "./initialState";
-import { pullCharacter } from "./thunks";
+import { pullCharacter, updateCharacterDefense } from "./thunks";
 
 export const characterSlice = createSlice({
   name: "character",
@@ -38,5 +38,12 @@ export const characterSlice = createSlice({
       })
       .addCase(pullCharacter.pending, (state, action) => {})
       .addCase(pullCharacter.rejected, (state, action) => {});
+
+    builder
+      .addCase(updateCharacterDefense.fulfilled, (state, action) => {
+        state.armor = { ...state.armor, ...action.payload };
+      })
+      .addCase(updateCharacterDefense.pending, (state, action) => {})
+      .addCase(updateCharacterDefense.rejected, (state, action) => {});
   },
 });

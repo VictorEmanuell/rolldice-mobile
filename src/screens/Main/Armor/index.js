@@ -16,6 +16,8 @@ import {
   updateDefense,
   deleteDefense,
 } from "../../../services/api/Defense";
+import { updateCharacterDefense } from "../../../store/Character/thunks";
+import { attributeKey } from "../../../utils/Attributes";
 
 import Colors from "../../../assets/Colors";
 
@@ -33,7 +35,7 @@ import { ATTRIBUTES } from "../../../constants";
 export function Armor() {
   const dispatch = useDispatch();
   const { characterSelected } = useSelector((store) => store.user);
-  const { armor } = useSelector((store) => store.character);
+  const { armor, attributes } = useSelector((store) => store.character);
 
   // useEffect(() => {
   //   // reset states
@@ -60,7 +62,7 @@ export function Armor() {
 
     setInputs({ ...onlyInputs });
     setAttributePicker({
-      value: armor?.defense_attribute ?? 'DES',
+      value: armor?.defense_attribute ?? "DES",
       visible: false,
     });
     setUseAttribute(armor?.use_attribute);
@@ -103,58 +105,23 @@ export function Armor() {
     };
   }, []);
 
-  // const pullDefense = async () => {
-  //   const result = await getDefense(characterSelected);
+  const handleUpdateDefense = async () => {
+    const data = {
+      slot1_name: inputs.slot1_name,
+      slot1_defense: Number(inputs.slot1_defense),
+      slot1_penalty: Number(inputs.slot1_penalty),
+      slot2_name: inputs.slot2_name,
+      slot2_defense: Number(inputs.slot2_defense),
+      slot2_penalty: Number(inputs.slot2_penalty),
+      use_attribute: useAttribute,
+      defense_attribure: attriburePicker.value,
+      others: Number(inputs.others),
+    };
 
-  //   if (result !== "empty" && result !== "error") {
-  //     setInputs((state) => {
-  //       let newState = Object.assign({}, result);
-
-  //       if (
-  //         result.defense_attribute &&
-  //         result.use_attribute &&
-  //         result.character_id
-  //       ) {
-  //         delete newState.defense_attribute;
-  //         delete newState.use_attribute;
-  //         delete newState.character_id;
-  //       }
-
-  //       return {
-  //         ...state,
-  //         ...newState,
-  //       };
-  //     });
-
-  //     setAttributePicker({ value: result.defense_attribute, visible: false });
-
-  //     setUseAttribute(result.use_attribute);
-
-  //     dispatch(setArmor({ ...result }));
-  //   }
-  // };
-
-  // const handleUpdateDefense = async () => {
-  //   loading(dispatch, { active: true, label: "Enviando dados..." });
-
-  //   const newDefense = await updateDefense(characterSelected, {
-  //     slot1_name: inputs.slot1_name,
-  //     slot1_defense: Number(inputs.slot1_defense),
-  //     slot1_penalty: Number(inputs.slot1_penalty),
-  //     slot2_name: inputs.slot2_name,
-  //     slot2_defense: Number(inputs.slot2_defense),
-  //     slot2_penalty: Number(inputs.slot2_penalty),
-  //     use_attribute: useAttribute,
-  //     defense_attribure: attriburePicker.value,
-  //     others: Number(inputs.others),
-  //   });
-
-  //   if (newDefense) {
-  //     dispatch(setArmor({ ...newDefense }));
-  //   }
-
-  //   loading(dispatch, { active: false, label: "", delay: 2000 });
-  // };
+    dispatch(
+      updateCharacterDefense({ characterId: characterSelected, data, dispatch })
+    );
+  };
 
   // const handleDeleteDefense = async () => {
   //   loading(dispatch, { active: true, label: "Enviando dados..." });
@@ -164,6 +131,16 @@ export function Armor() {
 
   //   loading(dispatch, { active: false, label: "", delay: 2000 });
   // };
+
+  const totalSum = () => {
+    return (
+      (useAttribute ? attributes[attributeKey(attriburePicker.value)] : 0) +
+      Number(inputs.slot1_defense) +
+      Number(inputs.slot2_defense) +
+      Number(inputs.others) +
+      10
+    );
+  };
 
   return (
     <SafeAreaView edges={["right", "top", "left"]} style={{ flex: 1 }}>
@@ -414,7 +391,9 @@ export function Armor() {
               <Text style={styles.operatorResult}>=</Text>
 
               <View style={styles.boxResult}>
-                <Text style={styles.textResult}>18</Text>
+                <Text style={styles.textResult}>
+                  {totalSum()}
+                </Text>
               </View>
             </View>
 
@@ -435,7 +414,7 @@ export function Armor() {
               <TouchableOpacity
                 activeOpacity={0.9}
                 style={[styles.buttonUpdate, { backgroundColor: Colors.green }]}
-                // onPress={handleUpdateDefense}
+                onPress={handleUpdateDefense}
               >
                 <ImageView image={Save} width={20} />
               </TouchableOpacity>

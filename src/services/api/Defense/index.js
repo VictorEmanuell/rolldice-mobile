@@ -25,13 +25,13 @@ import { auth } from "../../firebase";
 //   }
 // }
 
-export async function updateDefense(id, data) {
+export async function updateDefense(characterId, data) {
   try {
     const token = await getIdToken(auth.currentUser);
-
+    
     const defense = await api
       .patch(
-        `/defenses/${id}`,
+        `/defenses/${characterId}`,
         { ...data },
         {
           headers: {
