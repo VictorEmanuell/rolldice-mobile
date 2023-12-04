@@ -17,6 +17,7 @@ import {
 } from "../../../../services/api/Character";
 import { loading } from "../../../../utils/Loading";
 import { useDispatch } from "react-redux";
+import { setUserCharacterSelected } from "../../../../store/User/actions";
 
 import { styles } from "./styles";
 
@@ -116,9 +117,10 @@ export function EditCharacter({ navigation, route }) {
   };
 
   const handleDeleteCharacter = async () => {
-    loading(dispatch, { active: true, label: "Enviando dados..." });
+    loading(dispatch, { active: true, label: "Excluindo..." });
 
     await deleteCharacter(character.id);
+    dispatch(setUserCharacterSelected(null));
     navigation.goBack();
 
     loading(dispatch, { active: false, label: "", delay: 2000 });

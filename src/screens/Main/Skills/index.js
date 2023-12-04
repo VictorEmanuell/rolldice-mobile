@@ -4,7 +4,6 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
-  // FlatList,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, {
@@ -12,7 +11,7 @@ import Animated, {
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import * as JsSearch from "js-search";
 import { FlatList } from "react-native-gesture-handler";
 
@@ -25,10 +24,15 @@ import { ImageView } from "../../../components/ImageView";
 import { SkillCard } from "../../../components/SkillCard";
 
 export function Skills() {
-  const dispatch = useDispatch();
   const { skills } = useSelector((store) => store.character);
 
+  useEffect(() => {
+    setSkillsData(skills);
+  }, [skills]);
+
   // Hooks
+  const [skillsData, setSkillsData] = useState(skills);
+
   const [inputFocused, setInputFocused] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [searchResult, setSearchResult] = useState([]);
@@ -109,9 +113,11 @@ export function Skills() {
               style={{ width: "100%" }}
               contentContainerStyle={styles.flatList}
               showsVerticalScrollIndicator={false}
-              data={searchInput ? searchResult : skills}
+              data={searchInput ? searchResult : skillsData}
               keyExtractor={(item) => item.id}
-              renderItem={(props) => <SkillCard {...props} />}
+              renderItem={(props) => (
+                <SkillCard {...props} index={props.index} />
+              )}
             />
           </View>
         </View>

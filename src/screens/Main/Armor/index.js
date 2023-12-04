@@ -11,13 +11,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from "react-redux";
 import { loading } from "../../../utils/Loading";
-import {
-  getDefense,
-  updateDefense,
-  deleteDefense,
-} from "../../../services/api/Defense";
+import { deleteDefense } from "../../../services/api/Defense";
 import { updateCharacterDefense } from "../../../store/Character/thunks";
 import { attributeKey } from "../../../utils/Attributes";
+import { resetDefense } from "../../../store/Character/actions";
 
 import Colors from "../../../assets/Colors";
 
@@ -123,14 +120,14 @@ export function Armor() {
     );
   };
 
-  // const handleDeleteDefense = async () => {
-  //   loading(dispatch, { active: true, label: "Enviando dados..." });
+  const handleDeleteDefense = async () => {
+    loading(dispatch, { active: true, label: "Enviando dados..." });
 
-  //   await deleteDefense(characterSelected);
-  //   dispatch(resetArmor());
+    await deleteDefense(characterSelected);
+    dispatch(resetDefense());
 
-  //   loading(dispatch, { active: false, label: "", delay: 2000 });
-  // };
+    loading(dispatch, { active: false, label: "", delay: 2000 });
+  };
 
   const totalSum = () => {
     return (
@@ -391,9 +388,7 @@ export function Armor() {
               <Text style={styles.operatorResult}>=</Text>
 
               <View style={styles.boxResult}>
-                <Text style={styles.textResult}>
-                  {totalSum()}
-                </Text>
+                <Text style={styles.textResult}>{totalSum()}</Text>
               </View>
             </View>
 
@@ -406,7 +401,7 @@ export function Armor() {
               <TouchableOpacity
                 activeOpacity={0.9}
                 style={[styles.buttonUpdate, { backgroundColor: Colors.red }]}
-                // onPress={handleDeleteDefense}
+                onPress={handleDeleteDefense}
               >
                 <ImageView image={Delete} width={20} />
               </TouchableOpacity>

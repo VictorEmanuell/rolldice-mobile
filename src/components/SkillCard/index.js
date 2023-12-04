@@ -7,6 +7,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useDispatch, useSelector } from "react-redux";
 import { loading } from "../../utils/Loading";
+import { updateCharacterSkill } from "../../store/Character/thunks";
 
 import Colors from "../../assets/Colors";
 
@@ -28,8 +29,9 @@ for (let i = -50; i < 51; i++) {
   OTHERS.push(i);
 }
 
-export function SkillCard({ item: skill }) {
+export function SkillCard({ item: skill, index }) {
   const dispatch = useDispatch();
+  const characterId = useSelector((store) => store.character.id);
   const { attributes } = useSelector((store) => store.character);
 
   // Hooks
@@ -67,20 +69,33 @@ export function SkillCard({ item: skill }) {
     saveChangesPaddingTop.value = withTiming(0, { duration: 300 });
   };
 
-  const saveChanges = () => {
-    loading(dispatch, { active: true, label: "Salvando..." });
+  const handleSaveChanges = () => {
+    const data = {
+      trained: trained,
+      character_attribute: attriburePicker.value,
+      others: Number(othersPicker.value),
+    };
 
-    console.log({
-      skill_id: skill.skill_id,
-      name: skill.name,
-      training: 1,
-      trained,
-      attribure: attriburePicker.value,
-      others: othersPicker.value,
-    });
+    dispatch(updateCharacterSkill({ characterId, skillId: skill.id, data, dispatch }));
 
-    loading(dispatch, { active: true, delay: 2000 });
     saveChangesOut();
+  };
+
+  const handleDeleteDefense = async () => {
+    loading(dispatch, { active: true, label: "Enviando dados..." });
+
+    // await deleteDefense(characterSelected);
+    // dispatch(resetDefense());
+
+    loading(dispatch, { active: false, label: "", delay: 2000 });
+  };
+
+  const totalSum = () => {
+    return (
+      attributes[attributeKey(attriburePicker.value)] +
+      (trained ? 2 : 0) +
+      othersPicker.value
+    );
   };
 
   return (
@@ -236,7 +251,7 @@ export function SkillCard({ item: skill }) {
         <TouchableOpacity
           activeOpacity={0.8}
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-          onPress={() => saveChanges()}
+          onPress={handleSaveChanges}
         >
           <ImageView image={Save} width={16} />
         </TouchableOpacity>

@@ -1,6 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { characterInitialState } from "./initialState";
-import { pullCharacter, updateCharacterDefense } from "./thunks";
+import {
+  pullCharacter,
+  updateCharacterDefense,
+  updateCharacterSkill,
+} from "./thunks";
 
 export const characterSlice = createSlice({
   name: "character",
@@ -17,6 +21,9 @@ export const characterSlice = createSlice({
       state.intelligence = action.payload.intelligence;
       state.wisdom = action.payload.wisdom;
       state.charisma = action.payload.charisma;
+    },
+    resetDefense(state, action) {
+      state.armor = characterInitialState.armor;
     },
   },
   extraReducers: (builder) => {
@@ -45,5 +52,20 @@ export const characterSlice = createSlice({
       })
       .addCase(updateCharacterDefense.pending, (state, action) => {})
       .addCase(updateCharacterDefense.rejected, (state, action) => {});
+
+    builder
+      .addCase(updateCharacterSkill.fulfilled, (state, action) => {
+        let skillIndex;
+        state.skills.forEach((s, i) => {
+          if (s.id === action.payload.skill_id) {
+            skillIndex = i;
+            return;
+          }
+        });
+
+        state.skills[skillIndex].modifier = { ...action.payload };
+      })
+      .addCase(updateCharacterSkill.pending, (state, action) => {})
+      .addCase(updateCharacterSkill.rejected, (state, action) => {});
   },
 });
