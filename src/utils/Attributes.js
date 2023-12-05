@@ -14,3 +14,20 @@ export const attributeKey = (attribute) => {
       return "charisma";
   }
 };
+
+export const attributeName = (attribute) => {
+  switch (attribute) {
+    case "FOR":
+      return "Força";
+    case "DES":
+      return "Destreza";
+    case "CON":
+      return "Constituição";
+    case "INT":
+      return "Inteligência";
+    case "SAB":
+      return "Sabedoria";
+    case "CAR":
+      return "Carisma";
+  }
+};

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from "react-native";
 import Colors from "../../assets/Colors";
 import Fonts from "../../assets/Fonts";
 
@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
     height: "95%",
     alignItems: "center",
     elevation: 6,
+    justifyContent: 'space-between'
   },
   containerHeader: {
     backgroundColor: Colors.primary,
@@ -32,4 +33,37 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: "flex-end",
   },
+  containerData: {
+    width: '90%',
+    paddingVertical: 8
+  },
+  containerButtons: {
+    width: '90%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10
+  },
+  containerOptions: {
+    width: "100%",
+    flexDirection: "row",
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+    alignItems: "center",
+    justifyContent: "space-between",
+    overflow: 'hidden'
+  },
+  editButton: {
+    backgroundColor: Colors.primary,
+    width: '50%',
+    height: '100%',
+    alignItems: 'center',
+    paddingVertical: 8
+  },
+  deleteButton: {
+    backgroundColor: Colors.red,
+    width: '50%',
+    height: '100%',
+    alignItems: 'center',
+    paddingVertical: 8
+  }
 });
