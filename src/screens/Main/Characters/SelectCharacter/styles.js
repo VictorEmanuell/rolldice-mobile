@@ -21,16 +21,34 @@ export const styles = StyleSheet.create({
   buttonCreateCharacter: {
     backgroundColor: Colors.primary,
     borderRadius: 5,
-    padding: 15,
+    padding: 12,
     alignItems: "center",
     justifyContent: "center",
     width: "85%",
     alignSelf: "center",
     position: 'absolute',
-    bottom: 15,
+    bottom: 58,
     elevation: 4
   },
   textCreateCharacter: {
+    fontFamily: Fonts.bold,
+    fontSize: 15,
+    color: "white",
+    textAlign: "center",
+  },
+  buttonLogout: {
+    backgroundColor: Colors.red,
+    borderRadius: 5,
+    padding: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    width: "85%",
+    alignSelf: "center",
+    position: 'absolute',
+    bottom: 10,
+    elevation: 4
+  },
+  textLogout: {
     fontFamily: Fonts.bold,
     fontSize: 15,
     color: "white",

@@ -9,6 +9,10 @@ node_modules/
 dist/
 web-build/
 
+# Idea
+
+.idea/
+
 # Native
 *.orig.*
 *.jks

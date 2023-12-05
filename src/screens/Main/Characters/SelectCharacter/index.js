@@ -2,6 +2,9 @@ import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
+import { auth } from "../../../../services/firebase";
+import { signOut } from "firebase/auth";
+import { loading } from "../../../../utils/Loading";
 
 import { styles } from "./styles";
 
@@ -18,21 +21,22 @@ export function SelectCharacter({ navigation }) {
     }
   }, [characterSelected]);
 
-  // const handleSignOut = () => {
-  //   loading(dispatch, { active: true, label: "Saindo..." });
-  //   signOut(auth)
-  //     .then(() => {
-  //       navigation.navigate("Auth");
-  //       navigation.reset({
-  //         index: 0,
-  //         routes: [{ name: "Auth" }],
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  //   loading(dispatch, { active: false, label: "", delay: 2000 });
-  // };
+  const handleSignOut = () => {
+    loading(dispatch, { active: true, label: "Saindo..." });
+    signOut(auth)
+      .then(() => {
+        loading(dispatch, { active: false, label: "", delay: 2000 });
+        navigation.navigate("Auth");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Auth" }],
+        });
+      })
+      .catch((error) => {
+        loading(dispatch, { active: false, label: "", delay: 2000 });
+        console.log(error);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -57,6 +61,14 @@ export function SelectCharacter({ navigation }) {
         }
       >
         <Text style={styles.textCreateCharacter}>CRIAR NOVO PERSONAGEM</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        activeOpacity={0.98}
+        style={styles.buttonLogout}
+        onPress={handleSignOut}
+      >
+        <Text style={styles.textLogout}>SAIR</Text>
       </TouchableOpacity>
     </View>
   );

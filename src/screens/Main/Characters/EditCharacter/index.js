@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState} from "react";
 import {
   View,
   TouchableWithoutFeedback,
@@ -9,31 +9,31 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {
   createCharacter,
   deleteCharacter,
   updateCharacter,
 } from "../../../../services/api/Character";
-import { loading } from "../../../../utils/Loading";
-import { useDispatch } from "react-redux";
-import { setUserCharacterSelected } from "../../../../store/User/actions";
+import {loading} from "../../../../utils/Loading";
+import {useDispatch} from "react-redux";
+import {setUserCharacterSelected} from "../../../../store/User/actions";
 
-import { styles } from "./styles";
+import {styles} from "./styles";
 
-import { InputText } from "../../../../components/InputText";
-import { WheelPicker } from "../../../../components/WheelPicker";
-import { ImageView } from "../../../../components/ImageView";
+import {InputText} from "../../../../components/InputText";
+import {WheelPicker} from "../../../../components/WheelPicker";
+import {ImageView} from "../../../../components/ImageView";
 
 import Save from "../../../../assets/Icons/save.png";
 import Delete from "../../../../assets/Icons/delete.png";
 
-import { CLASSES } from "../../../../constants";
+import {CLASSES} from "../../../../constants";
 import Colors from "../../../../assets/Colors";
 
-export function EditCharacter({ navigation, route }) {
+export function EditCharacter({navigation, route}) {
   const dispatch = useDispatch();
-  const { action, character } = route.params;
+  const {action, character} = route.params;
 
   const [name, setName] = useState(character?.name);
   const [classPicker, setClassPicker] = useState({
@@ -53,7 +53,7 @@ export function EditCharacter({ navigation, route }) {
   const [charisma, setCharisma] = useState(character?.charisma.toString());
 
   const handleUpdateCharacter = async () => {
-    loading(dispatch, { active: true, label: "Enviando dados..." });
+    loading(dispatch, {active: true, label: "Enviando dados..."});
 
     if (action === "create") {
       if (
@@ -79,7 +79,7 @@ export function EditCharacter({ navigation, route }) {
           charisma: Number(charisma),
         });
 
-        loading(dispatch, { active: false, label: "", delay: 2000 });
+        loading(dispatch, {active: false, label: "", delay: 2000});
         return navigation.goBack();
       }
     }
@@ -108,30 +108,30 @@ export function EditCharacter({ navigation, route }) {
           charisma: Number(charisma),
         });
 
-        loading(dispatch, { active: false, label: "", delay: 2000 });
+        loading(dispatch, {active: false, label: "", delay: 2000});
         return navigation.goBack();
       }
     }
 
-    return loading(dispatch, { active: false, label: "", delay: 2000 });
+    return loading(dispatch, {active: false, label: "", delay: 2000});
   };
 
   const handleDeleteCharacter = async () => {
-    loading(dispatch, { active: true, label: "Excluindo..." });
+    loading(dispatch, {active: true, label: "Excluindo..."});
 
     await deleteCharacter(character.id);
     dispatch(setUserCharacterSelected(null));
     navigation.goBack();
 
-    loading(dispatch, { active: false, label: "", delay: 2000 });
+    loading(dispatch, {active: false, label: "", delay: 2000});
   };
 
   return (
-    <KeyboardAvoidingView behavior="height" style={{ flex: 1 }}>
+    <KeyboardAvoidingView behavior="height" style={{flex: 1}}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
           <KeyboardAwareScrollView
-            style={{ width: "85%" }}
+            style={{width: "85%"}}
             contentContainerStyle={styles.containerContent}
             showsVerticalScrollIndicator={false}
             enableOnAndroid={true}
@@ -139,12 +139,12 @@ export function EditCharacter({ navigation, route }) {
             <InputText
               label="Nome"
               placeholder="Nome do personagem..."
-              containerStyle={{ width: "100%" }}
+              containerStyle={{width: "100%"}}
               value={name}
               onChangeText={setName}
             />
 
-            <View style={styles.divider} />
+            <View style={styles.divider}/>
 
             <View>
               <Text style={styles.labelClassPicker}>Classe</Text>
@@ -153,7 +153,7 @@ export function EditCharacter({ navigation, route }) {
                 activeOpacity={0.9}
                 style={styles.buttonClassPicker}
                 onPress={() =>
-                  setClassPicker({ value: classPicker.value, visible: true })
+                  setClassPicker({value: classPicker.value, visible: true})
                 }
               >
                 <Text style={styles.textClassPicker}>{classPicker.value}</Text>
@@ -165,18 +165,18 @@ export function EditCharacter({ navigation, route }) {
               />
             </View>
 
-            <View style={styles.divider} />
+            <View style={styles.divider}/>
 
             <InputText
               label="Nível"
               keyboardType="numeric"
-              containerStyle={{ width: "100%" }}
+              containerStyle={{width: "100%"}}
               placeholder="0"
               value={level}
               onChangeText={setLevel}
             />
 
-            <View style={styles.divider} />
+            <View style={styles.divider}/>
 
             <View style={styles.containerGridAttributes}>
               <View style={styles.headerGridAttributes}>
@@ -286,16 +286,16 @@ export function EditCharacter({ navigation, route }) {
               <ImageView
                 image={Delete}
                 width={20}
-                style={{ opacity: action === "create" ? 0.3 : 1 }}
+                style={{opacity: action === "create" ? 0.3 : 1}}
               />
             </TouchableOpacity>
 
             <TouchableOpacity
               activeOpacity={0.9}
-              style={[styles.buttonUpdate, { backgroundColor: Colors.green }]}
+              style={[styles.buttonUpdate, {backgroundColor: Colors.green}]}
               onPress={handleUpdateCharacter}
             >
-              <ImageView image={Save} width={20} />
+              <ImageView image={Save} width={20}/>
             </TouchableOpacity>
           </View>
         </View>
