@@ -34,22 +34,6 @@ export function Armor() {
   const { characterSelected } = useSelector((store) => store.user);
   const { armor, attributes } = useSelector((store) => store.character);
 
-  // useEffect(() => {
-  //   // reset states
-
-  //   setInputs(inputsInitialState);
-  //   setAttributePicker({ value: "DES", visible: false });
-  //   setUseAttribute(false);
-
-  //   if (characterSelected) {
-  //     pullDefense();
-  //   }
-  // }, [characterSelected]);
-
-  // console.log(defense);
-  // useEffect(() => {
-  // }, [defense]);
-
   useEffect(() => {
     let onlyInputs = Object.assign({}, armor);
 

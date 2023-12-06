@@ -12,7 +12,7 @@ import Delete from '../../assets/Icons/delete.png';
 
 import {attributeName} from '../../utils/Attributes'
 
-export function AttackCard({index, data}) {
+export function AttackCard({index, data, modalEdit: {modalEditState, setModalEditState}}) {
   return (
     <View
       style={{
@@ -56,7 +56,7 @@ export function AttackCard({index, data}) {
         <View style={styles.containerOptions}>
           <TouchableOpacity
             activeOpacity={0.88}
-            onPress={() => ""}
+            onPress={() => setModalEditState({visible: true, action: 'edit', data})}
             style={styles.editButton}
           >
             <ImageView image={Edit} width={14}/>

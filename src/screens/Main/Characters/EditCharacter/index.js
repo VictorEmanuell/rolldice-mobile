@@ -135,6 +135,7 @@ export function EditCharacter({navigation, route}) {
             contentContainerStyle={styles.containerContent}
             showsVerticalScrollIndicator={false}
             enableOnAndroid={true}
+            extraScrollHeight={-120}
           >
             <InputText
               label="Nome"

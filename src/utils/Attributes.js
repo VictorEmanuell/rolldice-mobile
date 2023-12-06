@@ -29,5 +29,7 @@ export const attributeName = (attribute) => {
       return "Sabedoria";
     case "CAR":
       return "Carisma";
+    default:
+      return attribute;
   }
 };

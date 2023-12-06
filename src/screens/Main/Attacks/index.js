@@ -8,12 +8,14 @@ import {styles} from "./styles";
 
 import {Header} from "../../../components/Header";
 import {AttackCard} from "../../../components/AttackCard";
+import {EditAttack} from "./EditAttack";
 
-export function Attacks() {
+export function Attacks({navigation}) {
   const dispatch = useDispatch();
   const {attacks} = useSelector(store => store.character);
 
   const [attacksData, setAttacksData] = useState(attacks);
+  const [modalEditState, setModalEditState] = useState({visible: false});
 
   useEffect(() => {
     setAttacksData(attacks);
@@ -28,24 +30,27 @@ export function Attacks() {
 
       <View style={styles.containerContent}>
         <Carousel
-          loop
+          loop={false}
           width={width}
           height={height * 0.68}
           autoPlay={false}
           data={attacksData}
           scrollAnimationDuration={500}
-          renderItem={({index}) => <AttackCard index={index} data={attacksData[index]}/>}
+          renderItem={({index}) => <AttackCard index={index} data={attacksData[index]} modalEdit={{modalEditState, setModalEditState}}/>}
         />
 
         <View style={styles.containerCreateAttack}>
           <TouchableOpacity
             activeOpacity={0.88}
             style={styles.buttonCreateAttack}
+            onPress={() => setModalEditState({visible: true, action: 'create'})}
           >
             <Text style={styles.textCreateAttack}>+</Text>
           </TouchableOpacity>
         </View>
       </View>
+
+      <EditAttack modalState={modalEditState} setModalState={setModalEditState} navigation={navigation}/>
     </SafeAreaView>
   );
 }

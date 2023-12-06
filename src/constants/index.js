@@ -16,3 +16,12 @@ export const CLASSES = [
   "Nobre",
   "Paladino",
 ];
+export const DAMAGE_ATTRIBUTES = ["Nenhum", "DES", "CON", "INT", "FOR", "SAB", "CAR"];
+
+export const DAMAGES = ["Perfuracao", "Corte", "Impacto", "Outro"]
+
+export const RANGES = ["Curto", "Medio", "Longo", "Outro"]
+
+export const CRITICALS = ["Nenhum", "Dilacerante", "Lancinante"]
+
+export const USE_SKILL = [{id: 6, name: "Atuação"}, {id: 16, name: "Luta"}, {id: 24, name: "Pontaria"}]
