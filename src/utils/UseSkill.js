@@ -12,6 +12,14 @@ export const useSkillName = (id) => {
     return name;
 }
 
+export const useSkillId = (name) => {
+    let id;
+    USE_SKILL.forEach((item) => {
+        if (item.name === name) return id = item.id;
+    });
+    return id;
+}
+
 export const useSkills = () => {
     let array = [];
     USE_SKILL.forEach(item => {array.push(item.name)})

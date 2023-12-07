@@ -1,24 +1,15 @@
 import {useState} from "react";
 import {
-    View,
-    TouchableWithoutFeedback,
     Keyboard,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    ScrollView,
     KeyboardAvoidingView,
-    Modal
+    Modal,
+    Text,
+    TouchableOpacity,
+    TouchableWithoutFeedback,
+    View
 } from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import {
-    createCharacter,
-    deleteCharacter,
-    updateCharacter,
-} from "../../../../services/api/Character";
-import {loading} from "../../../../utils/Loading";
-import {useDispatch} from "react-redux";
-import {setUserCharacterSelected} from "../../../../store/User/actions";
+import {useDispatch, useSelector} from "react-redux";
 
 import {styles} from "./styles";
 
@@ -27,17 +18,18 @@ import {WheelPicker} from "../../../../components/WheelPicker";
 import {ImageView} from "../../../../components/ImageView";
 
 import Save from "../../../../assets/Icons/save.png";
-import Delete from "../../../../assets/Icons/delete.png";
 
-import {RANGES, DAMAGES, DAMAGE_ATTRIBUTES, CRITICALS, USE_SKILL} from "../../../../constants";
+import {CRITICALS, DAMAGE_ATTRIBUTES, DAMAGES, RANGES} from "../../../../constants";
 import Colors from "../../../../assets/Colors";
 
 import {attributeName} from '../../../../utils/Attributes';
-import {useSkillName, useSkills} from "../../../../utils/UseSkill";
+import {useSkillId, useSkillName, useSkills} from "../../../../utils/UseSkill";
+import {createCharacterAttack, updateCharacterAttack} from "../../../../store/Character/thunks";
 
-export function EditAttack({ modalState, setModalState, navigation}) {
+export function EditAttack({modalState, setModalState}) {
     if (!modalState.action) return;
 
+    const {characterSelected} = useSelector(store => store.user);
     const dispatch = useDispatch();
 
     const [name, setName] = useState(modalState.data?.name);
@@ -67,6 +59,53 @@ export function EditAttack({ modalState, setModalState, navigation}) {
         value: useSkillName(modalState.data?.use_skill) ? useSkillName(modalState.data?.use_skill) : "Atuação",
         visible: false,
     });
+
+    const handleUpdateAttack = () => {
+        if (modalState.action === "create") {
+            const data = {
+                name: name,
+                attack_bonus: Number(attackBonus),
+                damage: damage,
+                extra_damage: Number(extraDamage),
+                damage_type: damageTypePicker.value,
+                damage_attribute: damageAttributePicker.value,
+                extra_dices: Number(extraDices),
+                critical_type: criticalTypePicker.value,
+                critical_value: Number(critical),
+                critical_multiplier: Number(criticalMultiplier),
+                range: rangePicker.value,
+                use_skill: useSkillId(useSkillPicker.value)
+            }
+
+            dispatch(createCharacterAttack({characterId: characterSelected, data, dispatch}));
+            setModalState({visible: false});
+        }
+
+        if (modalState.action === 'edit') {
+            const data = {
+                name: name,
+                attack_bonus: Number(attackBonus),
+                damage: damage,
+                extra_damage: Number(extraDamage),
+                damage_type: damageTypePicker.value,
+                damage_attribute: damageAttributePicker.value,
+                extra_dices: Number(extraDices),
+                critical_type: criticalTypePicker.value,
+                critical_value: Number(critical),
+                critical_multiplier: Number(criticalMultiplier),
+                range: rangePicker.value,
+                use_skill: useSkillId(useSkillPicker.value)
+            }
+
+            dispatch(updateCharacterAttack({
+                characterId: characterSelected,
+                attackId: modalState.data.id,
+                data,
+                dispatch,
+            }));
+            setModalState({visible: false});
+        }
+    }
 
     return (
         <Modal
@@ -235,7 +274,8 @@ export function EditAttack({ modalState, setModalState, navigation}) {
                                         setDamageAttributePicker({value: damageAttributePicker.value, visible: true})
                                     }
                                 >
-                                    <Text style={styles.textClassPicker}>{attributeName(damageAttributePicker.value)}</Text>
+                                    <Text
+                                        style={styles.textClassPicker}>{attributeName(damageAttributePicker.value)}</Text>
                                 </TouchableOpacity>
                                 <WheelPicker
                                     data={DAMAGE_ATTRIBUTES}
@@ -270,6 +310,7 @@ export function EditAttack({ modalState, setModalState, navigation}) {
                             <TouchableOpacity
                                 activeOpacity={0.88}
                                 style={styles.saveButton}
+                                onPress={handleUpdateAttack}
                             >
                                 <ImageView image={Save} width={20}/>
                             </TouchableOpacity>
