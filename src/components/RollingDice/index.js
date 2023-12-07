@@ -7,7 +7,7 @@ import Colors from "../../assets/Colors";
 
 import DiceAnimation from '../../assets/Animations/dice-animation.json'
 
-export function Loading({active, label}) {
+export function RollingDice({active, label}) {
     return (
         <Modal
             animationType="fade"
@@ -27,39 +27,17 @@ export function Loading({active, label}) {
                         height: "100%",
                     }}
                 >
-                    {/*<ActivityIndicator
-                        style={{
-                            padding: 10,
-                            backgroundColor: Colors.primary,
-                            borderRadius: 15,
-                            elevation: 4,
-                        }}
-                        size="large"
-                        color={Colors.lightPurple}
-                    />*/}
-
                     <View style={{backgroundColor: Colors.primary, borderRadius: 15, elevation: 4}}>
                         <LottieView
                             source={DiceAnimation}
                             autoPlay
                             style={{
-                                width: 90,
-                                height: 90,
+                                width: 150,
+                                height: 150,
                                 top: -8
                             }}
                         />
                     </View>
-
-                    <Text
-                        style={{
-                            fontFamily: Fonts.header,
-                            fontSize: 15,
-                            color: "white",
-                            padding: 8,
-                        }}
-                    >
-                        {label}
-                    </Text>
                 </BlurView>
             </View>
         </Modal>

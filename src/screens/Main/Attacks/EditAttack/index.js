@@ -69,7 +69,7 @@ export function EditAttack({modalState, setModalState}) {
                 extra_damage: Number(extraDamage),
                 damage_type: damageTypePicker.value,
                 damage_attribute: damageAttributePicker.value,
-                extra_dices: Number(extraDices),
+                extra_dices: extraDices,
                 critical_type: criticalTypePicker.value,
                 critical_value: Number(critical),
                 critical_multiplier: Number(criticalMultiplier),
@@ -89,7 +89,7 @@ export function EditAttack({modalState, setModalState}) {
                 extra_damage: Number(extraDamage),
                 damage_type: damageTypePicker.value,
                 damage_attribute: damageAttributePicker.value,
-                extra_dices: Number(extraDices),
+                extra_dices: extraDices,
                 critical_type: criticalTypePicker.value,
                 critical_value: Number(critical),
                 critical_multiplier: Number(criticalMultiplier),
@@ -170,8 +170,7 @@ export function EditAttack({modalState, setModalState}) {
 
                             <InputText
                                 label="Dados extra"
-                                placeholder="0"
-                                keyboardType="numeric"
+                                placeholder="1d5"
                                 containerStyle={{width: "100%"}}
                                 value={extraDices}
                                 onChangeText={setExtraDices}
