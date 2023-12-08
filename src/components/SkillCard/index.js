@@ -28,7 +28,7 @@ for (let i = -50; i < 51; i++) {
 export function SkillCard({item: skill, index}) {
     const dispatch = useDispatch();
     const characterId = useSelector((store) => store.character.id);
-    const {attributes, armor} = useSelector((store) => store.character);
+    const {attributes, armor, level} = useSelector((store) => store.character);
 
     // Hooks
 
@@ -98,7 +98,7 @@ export function SkillCard({item: skill, index}) {
         return (
             attributes[attributeKey(attriburePicker.value)] +
             (trained ? 2 : 0) +
-            othersPicker.value - penalty()
+            othersPicker.value + Math.trunc(level/2) - penalty()
         );
     };
 

@@ -142,12 +142,6 @@ export function rollAttack({character, attackId, type}) {
     }
 }
 
-export function rollAttackWorse({character}) {
-}
-
-export function rollAttackBetter({character}) {
-}
-
 export function rollSkill({character, skillId}) {
     const rolledSkillDice = getRandomIntInclusive(1, 20);
     const skill = character.skills.filter(value => value.id === skillId)[0];
@@ -165,9 +159,9 @@ export function rollSkill({character, skillId}) {
         if (skill.modifier) {
             const skillAttribute = character.attributes[attributeKey(skill.modifier.character_attribute)];
 
-            return (skillAttribute + (skill.modifier.trained && 2) + skill.modifier.others - penalty());
+            return (skillAttribute + (skill.modifier.trained && 2) + skill.modifier.others + Math.trunc(character.level/2) - penalty());
         } else {
-            return (character.attributes[attributeKey("DES")] - penalty());
+            return (character.attributes[attributeKey("DES")] + Math.trunc(character.level/2) - penalty());
         }
     }
 

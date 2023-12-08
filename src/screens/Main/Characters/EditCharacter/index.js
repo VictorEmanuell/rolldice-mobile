@@ -53,7 +53,7 @@ export function EditCharacter({navigation, route}) {
         if (
             name &&
             classPicker.value &&
-            (/[1-20]$/).test(level) &&
+            (/^(?:[1-9]|0[1-9]|1[0-9]|20)$/).test(level) &&
             strength &&
             dexterity &&
             constitution &&
@@ -164,7 +164,7 @@ export function EditCharacter({navigation, route}) {
                             placeholder="0"
                             value={level}
                             onChangeText={setLevel}
-                            validate={(/[1-20]$/).test(level)}
+                            validate={(/^(?:[1-9]|0[1-9]|1[0-9]|20)$/).test(level)}
                         />
 
                         <View style={styles.divider}/>
