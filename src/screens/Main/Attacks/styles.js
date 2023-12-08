@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import {Dimensions, StyleSheet} from "react-native";
 import Colors from "../../../assets/Colors";
 import Fonts from "../../../assets/Fonts";
 
@@ -13,6 +13,16 @@ export const styles = StyleSheet.create({
   },
   containerCreateAttack: {
     width: "85%",
+  },
+  empty: {
+    fontFamily: Fonts.regular,
+    fontSize: 14,
+    color: '#FFFFFF70',
+    textAlign: 'center',
+    alignSelf: 'center',
+    position: 'absolute',
+    top: Dimensions.get('window').height / 3,
+    elevation: 4
   },
   buttonCreateAttack: {
     backgroundColor: Colors.primary,

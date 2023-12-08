@@ -53,6 +53,10 @@ export function Attacks({navigation}) {
                                                          modalEdit={{modalEditState, setModalEditState}}/>}
                 />
 
+                {attacksData.length === 0 && (
+                    <Text style={styles.empty}>Nenhum ataque...</Text>
+                )}
+
                 <View style={styles.containerCreateAttack}>
                     <TouchableOpacity
                         activeOpacity={0.88}

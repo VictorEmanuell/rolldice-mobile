@@ -87,7 +87,7 @@ export function SkillCard({item: skill, index}) {
     };
 
     const penalty = () => {
-        if (skill.penalty){
+        if (skill.penalty && armor){
             return (armor.slot1_penalty + armor.slot2_penalty)
         } else {
             return 0;

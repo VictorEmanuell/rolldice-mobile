@@ -3,7 +3,7 @@ import {
     Keyboard,
     KeyboardAvoidingView,
     Modal,
-    Text,
+    Text, ToastAndroid,
     TouchableOpacity,
     TouchableWithoutFeedback,
     View
@@ -60,7 +60,13 @@ export function EditAttack({modalState, setModalState}) {
         visible: false,
     });
 
+    const diceRegex = (/[1-9]+d[1-9]+$/);
+
     const handleUpdateAttack = () => {
+        if (!diceRegex.test(extraDices) && !diceRegex.test(extraDices)) {
+            return ToastAndroid.show("Preencha corretamente!", ToastAndroid.SHORT);
+        }
+
         if (modalState.action === "create") {
             const data = {
                 name: name,
@@ -153,6 +159,7 @@ export function EditAttack({modalState, setModalState}) {
                                 containerStyle={{width: "100%"}}
                                 value={damage}
                                 onChangeText={setDamage}
+                                validate={diceRegex.test(damage)}
                             />
 
                             <View style={styles.divider}/>
@@ -174,6 +181,7 @@ export function EditAttack({modalState, setModalState}) {
                                 containerStyle={{width: "100%"}}
                                 value={extraDices}
                                 onChangeText={setExtraDices}
+                                validate={diceRegex.test(extraDices)}
                             />
 
                             <View style={styles.divider}/>

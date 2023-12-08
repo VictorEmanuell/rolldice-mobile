@@ -154,7 +154,7 @@ export function rollSkill({character, skillId}) {
     const armor = character.armor;
 
     const penalty = () => {
-        if (skill.penalty && armor?.slot1_penalty && armor?.slot2_penalty){
+        if (skill.penalty && armor) {
             return (armor.slot1_penalty + armor.slot2_penalty)
         } else {
             return 0;

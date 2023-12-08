@@ -35,20 +35,7 @@ export default function Routes() {
         if (user) {
             // console.log(user.stsTokenManager.accessToken);
 
-            // const { userBasicInfo, characters } = await getUserInfo(
-            //   user.stsTokenManager.accessToken
-            // );
-
-            // dispatch(
-            //   setUser({
-            //     id: user.uid,
-            //     name: userBasicInfo.name,
-            //     email: userBasicInfo.email,
-            //     characters,
-            //   })
-            // );
-
-            dispatch(pullUser(user.stsTokenManager.accessToken));
+            dispatch(pullUser({dispatch}));
 
             if (
                 navigationRef.current &&
