@@ -88,5 +88,28 @@ export function rollAttackWorse({character}) {
 export function rollAttackBetter({character}) {
 }
 
-export function rollSkill({character}) {
+export function rollSkill({character, skillId}) {
+    const rolledSkillDice = getRandomIntInclusive(1,20);
+    const skill = character.skills.filter(value => value.id === skillId)[0];
+
+    const skillTotal = () => {
+        if (skill.modifier) {
+            const skillAttribute = character.attributes[attributeKey(skill.modifier.character_attribute)];
+
+            return (skillAttribute + (skill.modifier.trained ?? 2) + skill.modifier.others);
+        } else {
+            return (character.attributes[attributeKey("DES")]);
+        }
+    }
+
+    const total = (rolledSkillDice + skillTotal());
+
+    return {
+        title: skill.name,
+        total,
+        infos: [
+            {field: '(Valor)', value: `1d20 - (${rolledSkillDice})`},
+            {field: '(Perícia)', value: skillTotal()},
+        ]
+    }
 }

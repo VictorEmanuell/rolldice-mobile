@@ -11,7 +11,7 @@ import {setRolling} from "../../store/RollingDice/actions";
 import Fonts from "../../assets/Fonts";
 import Colors from "../../assets/Colors";
 import {BoxResult} from "./BoxResult";
-import {rollAttackDefault} from "../../utils/RollDice";
+import {rollAttackDefault, rollSkill} from "../../utils/RollDice";
 
 export function RollingDice() {
     const dispatch = useDispatch();
@@ -39,6 +39,10 @@ export function RollingDice() {
         if (payload.type === 'attack-better') {
         }
         if (payload.type === 'skill') {
+            const rolled = rollSkill({character, skillId: payload.skillId});
+            setRenderBoxes((
+                <BoxResult title={rolled.title} total={rolled.total} rows={rolled.infos}/>
+            ))
         }
     }, [rolling]);
 
