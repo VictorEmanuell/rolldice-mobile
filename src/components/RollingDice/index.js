@@ -11,22 +11,34 @@ import {setRolling} from "../../store/RollingDice/actions";
 import Fonts from "../../assets/Fonts";
 import Colors from "../../assets/Colors";
 import {BoxResult} from "./BoxResult";
+import {rollAttackDefault} from "../../utils/RollDice";
 
 export function RollingDice() {
     const dispatch = useDispatch();
+    const character = useSelector(store => store.character)
     const {rolling, payload} = useSelector(store => store.rollingDice);
+
+    const [renderBoxes, setRenderBoxes] = useState(null);
 
     useEffect(() => {
         resetDice();
         resetBox();
+        setRenderBoxes(null);
 
-        if (payload === 'attack-default') {
+        if (payload.type === 'attack-default') {
+            const rolled = rollAttackDefault({character, attackId: payload.attackId});
+            setRenderBoxes((
+                <>
+                    <BoxResult title="ATAQUE" total={rolled.attack.total} rows={rolled.attack.infos}/>
+                    <BoxResult title="DANO" total={rolled.damage.total} rows={rolled.damage.infos}/>
+                </>
+            ))
         }
-        if (payload === 'attack-worse') {
+        if (payload.type === 'attack-worse') {
         }
-        if (payload === 'attack-better') {
+        if (payload.type === 'attack-better') {
         }
-        if (payload === 'skill') {
+        if (payload.type === 'skill') {
         }
     }, [rolling]);
 
@@ -135,8 +147,7 @@ export function RollingDice() {
                                 ]
                             }
                         })]}>
-                            <BoxResult/>
-                            <BoxResult/>
+                            {renderBoxes}
                         </Animated.View>
                     </View>
                 </BlurView>

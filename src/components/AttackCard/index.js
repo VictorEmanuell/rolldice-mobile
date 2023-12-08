@@ -37,7 +37,10 @@ export function AttackCard({index, data, modalEdit: {modalEditState, setModalEdi
 
                     <TouchableOpacity
                         activeOpacity={0.88}
-                        onPress={() => dispatch(setRolling({rolling: true, payload: "attack-default"}))}
+                        onPress={() => dispatch(setRolling({
+                            rolling: true,
+                            payload: {type: "attack-default", attackId: data.id}
+                        }))}
                         style={styles.diceButton}
                     >
                         <ImageView image={Dice} width={24}/>
@@ -59,9 +62,15 @@ export function AttackCard({index, data, modalEdit: {modalEditState, setModalEdi
 
                 <View style={styles.containerButtons}>
                     <DiceButton label="PIOR DADO" color="#39284F"
-                                onPress={() => dispatch(setRolling({rolling: true, payload: "attack-worse"}))}/>
+                                onPress={() => dispatch(setRolling({
+                                    rolling: true,
+                                    payload: {type: "attack-worse", attackId: data.id}
+                                }))}/>
                     <DiceButton label="MELHOR DADO" color="#8938F0"
-                                onPress={() => dispatch(setRolling({rolling: true, payload: "attack-better"}))}/>
+                                onPress={() => dispatch(setRolling({
+                                    rolling: true,
+                                    payload: {type: "attack-better", attackId: data.id}
+                                }))}/>
                 </View>
 
                 <View style={styles.containerOptions}>
