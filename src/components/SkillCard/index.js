@@ -28,7 +28,7 @@ for (let i = -50; i < 51; i++) {
 export function SkillCard({item: skill, index}) {
     const dispatch = useDispatch();
     const characterId = useSelector((store) => store.character.id);
-    const {attributes} = useSelector((store) => store.character);
+    const {attributes, armor} = useSelector((store) => store.character);
 
     // Hooks
 
@@ -86,18 +86,26 @@ export function SkillCard({item: skill, index}) {
         loading(dispatch, {active: false, label: "", delay: 2000});
     };
 
+    const penalty = () => {
+        if (skill.penalty){
+            return (armor.slot1_penalty + armor.slot2_penalty)
+        } else {
+            return 0;
+        }
+    }
+
     const totalSum = () => {
         return (
             attributes[attributeKey(attriburePicker.value)] +
             (trained ? 2 : 0) +
-            othersPicker.value
+            othersPicker.value - penalty()
         );
     };
 
     return (
         <View style={styles.container}>
             <View style={styles.containerHeader}>
-                <Text style={styles.textHeader}>{skill.name}</Text>
+                <Text style={styles.textHeader}>{skill.name + (skill.penalty ? "+" : "") + (skill.training ? "*" : "")}</Text>
 
                 <TouchableOpacity
                     activeOpacity={0.88}
@@ -154,9 +162,7 @@ export function SkillCard({item: skill, index}) {
 
                         <View style={styles.boxItemValue}>
                             <Text style={styles.textItemValue}>
-                                {attributes[attributeKey(attriburePicker.value)] +
-                                    (trained ? 2 : 0) +
-                                    othersPicker.value}
+                                {totalSum()}
                             </Text>
                         </View>
                     </View>

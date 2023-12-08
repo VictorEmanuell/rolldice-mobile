@@ -8,7 +8,7 @@ const exampleRows = [
     {field: '(Dano)', value: '2d8 - (6, 8)'},
 ]
 
-export function BoxResult({title = "ATAQUE", total = 32, rows = exampleRows}) {
+export function BoxResult({title = "ATAQUE", total = 32, totalColor = 'white', rows = exampleRows}) {
     return (
         <View style={{width: '85%', borderRadius: 5, overflow: 'hidden', elevation: 4}}>
             <View style={{
@@ -27,7 +27,7 @@ export function BoxResult({title = "ATAQUE", total = 32, rows = exampleRows}) {
                 alignItems: 'center',
                 gap: 5
             }}>
-                <Text style={{fontFamily: Fonts.bold, fontSize: 45, color: 'white'}}>{total}</Text>
+                <Text style={{fontFamily: Fonts.bold, fontSize: 45, color: totalColor}}>{total}</Text>
 
                 {rows.map((item, index) => {
                     return <Row key={index} field={item.field} value={item.value}/>
@@ -42,11 +42,12 @@ function Row({field, value}) {
         <View style={{
             width: '100%',
             flexDirection: 'row',
+            alignItems: 'center',
             justifyContent: 'space-between',
             borderColor: Colors.primary,
             borderBottomWidth: 1
         }}>
-            <Text style={{fontFamily: Fonts.regular, fontSize: 16, color: 'white'}}>{value}</Text>
+            <Text style={{fontFamily: Fonts.regular, fontSize: 16, color: 'white', maxWidth: '60%'}}>{value}</Text>
 
             <Text style={{fontFamily: Fonts.regular, fontSize: 16, color: '#ABA9A9'}}>{field}</Text>
         </View>

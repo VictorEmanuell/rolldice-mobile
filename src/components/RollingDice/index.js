@@ -11,7 +11,7 @@ import {setRolling} from "../../store/RollingDice/actions";
 import Fonts from "../../assets/Fonts";
 import Colors from "../../assets/Colors";
 import {BoxResult} from "./BoxResult";
-import {rollAttackDefault, rollSkill} from "../../utils/RollDice";
+import {rollAttack, rollSkill} from "../../utils/RollDice";
 
 export function RollingDice() {
     const dispatch = useDispatch();
@@ -25,23 +25,19 @@ export function RollingDice() {
         resetBox();
         setRenderBoxes(null);
 
-        if (payload.type === 'attack-default') {
-            const rolled = rollAttackDefault({character, attackId: payload.attackId});
+        if (payload.type?.startsWith('attack')) {
+            const rolled = rollAttack({character, attackId: payload.attackId, type: payload.type});
             setRenderBoxes((
                 <>
-                    <BoxResult title="ATAQUE" total={rolled.attack.total} rows={rolled.attack.infos}/>
+                    <BoxResult title="ATAQUE" total={rolled.attack.total} totalColor={rolled.attack.totalColor} rows={rolled.attack.infos}/>
                     <BoxResult title="DANO" total={rolled.damage.total} rows={rolled.damage.infos}/>
                 </>
             ))
         }
-        if (payload.type === 'attack-worse') {
-        }
-        if (payload.type === 'attack-better') {
-        }
         if (payload.type === 'skill') {
             const rolled = rollSkill({character, skillId: payload.skillId});
             setRenderBoxes((
-                <BoxResult title={rolled.title} total={rolled.total} rows={rolled.infos}/>
+                <BoxResult title={rolled.title.toUpperCase()} total={rolled.total} totalColor={rolled.totalColor} rows={rolled.infos}/>
             ))
         }
     }, [rolling]);
@@ -142,7 +138,8 @@ export function RollingDice() {
                             flex: 1,
                             alignItems: 'center',
                             justifyContent: 'center',
-                            gap: 30
+                            gap: 30,
+                            top: -20
                         }, useAnimatedStyle(() => {
                             "worklet";
                             return {

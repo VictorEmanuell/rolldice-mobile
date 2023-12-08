@@ -14,6 +14,7 @@ import {attributeName} from '../../utils/Attributes'
 import {useDispatch, useSelector} from "react-redux";
 import {deleteCharacterAttack} from "../../store/Character/thunks";
 import {setRolling} from "../../store/RollingDice/actions";
+import {useSkillName} from "../../utils/UseSkill";
 
 export function AttackCard({index, data, modalEdit: {modalEditState, setModalEditState}}) {
     const dispatch = useDispatch();
@@ -57,7 +58,7 @@ export function AttackCard({index, data, modalEdit: {modalEditState, setModalEdi
                     <DataRow label="Alcance" value={data.range} full/>
                     <DataRow label="Tipo de dano" value={data.damage_type} full/>
                     <DataRow label="Atributo no dano" value={attributeName(data.damage_attribute)} full/>
-                    <DataRow label="Perícia utilizada" value={"Luta"} full/>
+                    <DataRow label="Perícia utilizada" value={useSkillName(data.use_skill)} full/>
                 </View>
 
                 <View style={styles.containerButtons}>
