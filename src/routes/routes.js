@@ -1,7 +1,7 @@
 import {useRef, useState} from "react";
 import {DefaultTheme, NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {onAuthStateChanged} from "firebase/auth";
 import {auth} from "../services/firebase";
 
@@ -11,6 +11,7 @@ import {Main} from "./stacks/Main";
 
 import {Loading} from "../components/Loading";
 import {LoadingStartUp} from "../components/LoadingStartUp";
+import {RollingDice} from "../components/RollingDice";
 
 import {pullUser} from "../store/User/thunks";
 
@@ -26,7 +27,6 @@ const {Navigator, Screen} = createNativeStackNavigator();
 
 export default function Routes() {
     const dispatch = useDispatch();
-    const {active, label} = useSelector((store) => store.loading);
     const [loadingStartUp, setLoadingStartUp] = useState(true);
 
     const navigationRef = useRef();
@@ -98,8 +98,9 @@ export default function Routes() {
                 </Navigator>
             </NavigationContainer>
 
-            <Loading active={active} label={label}/>
+            <Loading/>
             <LoadingStartUp active={loadingStartUp}/>
+            <RollingDice/>
         </>
     );
 }

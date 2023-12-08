@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
   containerButtons: {
     width: '90%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     marginBottom: 10
   },
   containerOptions: {

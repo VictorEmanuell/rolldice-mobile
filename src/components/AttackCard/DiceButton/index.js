@@ -18,7 +18,9 @@ export function DiceButton({label, color = Colors.primary, onPress}) {
         borderRadius: 5,
         elevation: 4,
         alignItems: 'center',
-      }}>
+      }}
+      onPress={onPress}
+    >
       <View style={{flexDirection: 'row', marginTop: 2}}>
         <ImageView image={Dice} width={22} style={{marginHorizontal: 4}}/>
         <ImageView image={Dice} width={22} style={{marginHorizontal: 4}}/>

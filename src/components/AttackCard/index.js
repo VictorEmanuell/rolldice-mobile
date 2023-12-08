@@ -13,6 +13,7 @@ import Delete from '../../assets/Icons/delete.png';
 import {attributeName} from '../../utils/Attributes'
 import {useDispatch, useSelector} from "react-redux";
 import {deleteCharacterAttack} from "../../store/Character/thunks";
+import {setRolling} from "../../store/RollingDice/actions";
 
 export function AttackCard({index, data, modalEdit: {modalEditState, setModalEditState}}) {
     const dispatch = useDispatch();
@@ -36,7 +37,7 @@ export function AttackCard({index, data, modalEdit: {modalEditState, setModalEdi
 
                     <TouchableOpacity
                         activeOpacity={0.88}
-                        onPress={() => ""}
+                        onPress={() => dispatch(setRolling({rolling: true, payload: "attack-default"}))}
                         style={styles.diceButton}
                     >
                         <ImageView image={Dice} width={24}/>
@@ -57,9 +58,10 @@ export function AttackCard({index, data, modalEdit: {modalEditState, setModalEdi
                 </View>
 
                 <View style={styles.containerButtons}>
-                    <DiceButton label="PIOR DADO" color="#39284F"/>
-                    <DiceButton label="MELHOR DADO" color="#8938F0"/>
-                    <DiceButton label="CHANCE DE ERRO" color="#936DFF"/>
+                    <DiceButton label="PIOR DADO" color="#39284F"
+                                onPress={() => dispatch(setRolling({rolling: true, payload: "attack-worse"}))}/>
+                    <DiceButton label="MELHOR DADO" color="#8938F0"
+                                onPress={() => dispatch(setRolling({rolling: true, payload: "attack-better"}))}/>
                 </View>
 
                 <View style={styles.containerOptions}>
