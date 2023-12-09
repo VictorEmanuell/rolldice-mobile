@@ -113,7 +113,7 @@ export function SignUp({ navigation }) {
         }
       );
 
-      loading(dispatch, { active: false, label: "", delay: 1500 });
+      loading(dispatch, { active: false, label: "", delay: 2000 });
     } else {
       ToastAndroid.show("Preencha os campos corretamente!", ToastAndroid.LONG);
     }
