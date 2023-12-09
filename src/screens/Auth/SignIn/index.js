@@ -15,7 +15,10 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { useDispatch } from "react-redux";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import { auth } from "../../../services/firebase";
 import { loading } from "../../../utils/Loading";
 import { emailValidate } from "../../../utils/Validators";
@@ -104,6 +107,25 @@ export function SignIn({ navigation }) {
   };
 
   const forgotPassword = () => {
+    const handleForgotPassword = async (forgotPasswordEmail) => {
+      sendPasswordResetEmail(auth, forgotPasswordEmail)
+        .then(() => {
+          Alert.alert(
+            "Esqueci minha senha",
+            "Verifique seu email e redefina sua senha.",
+            [
+              {
+                text: "OK",
+              },
+            ]
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          ToastAndroid.show("Ocorreu um erro!", ToastAndroid.LONG);
+        });
+    };
+
     if (email.value && email.validate) {
       Alert.alert(
         "Esqueci minha senha",
@@ -114,7 +136,7 @@ export function SignIn({ navigation }) {
           },
           {
             text: "OK",
-            onPress: () => console.log("Função de recuperar senha..."),
+            onPress: async () => handleForgotPassword(email.value),
           },
         ]
       );

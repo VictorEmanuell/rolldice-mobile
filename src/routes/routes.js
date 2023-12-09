@@ -32,57 +32,6 @@ export default function Routes() {
 
   const navigationRef = useRef();
 
-  // const user = getAuth(auth);
-
-  // useEffect(() => {
-  //   console.log(auth.currentUser);
-  //   if (auth.currentUser) {
-  //     // console.log(user.stsTokenManager.accessToken);
-
-  //     dispatch(pullUser({ dispatch }));
-  //     ToastAndroid.show("Entrando...", ToastAndroid.SHORT);
-
-  //     if (
-  //       navigationRef.current?.getCurrentRoute().name &&
-  //       navigationRef.current.getCurrentRoute().name === "Start"
-  //     ) {
-  //       setTimeout(() => setLoadingStartUp(false), 2000);
-  //       setTimeout(() => {
-  //         navigationRef.current.navigate("Main");
-  //         navigationRef.current.reset({
-  //           index: 0,
-  //           routes: [{ name: "Main" }],
-  //         });
-  //       }, 4000);
-  //     }
-  //   } else {
-  //     setLoadingStartUp(false);
-  //   }
-  // }, [])
-
-  // if (auth.currentUser) {
-  //   // console.log(user.stsTokenManager.accessToken);
-
-  //   dispatch(pullUser({ dispatch }));
-  //   ToastAndroid.show("Entrando...", ToastAndroid.SHORT);
-
-  //   if (
-  //     navigationRef.current?.getCurrentRoute().name &&
-  //     navigationRef.current.getCurrentRoute().name === "Start"
-  //   ) {
-  //     setTimeout(() => setLoadingStartUp(false), 2000);
-  //     setTimeout(() => {
-  //       navigationRef.current.navigate("Main");
-  //       navigationRef.current.reset({
-  //         index: 0,
-  //         routes: [{ name: "Main" }],
-  //       });
-  //     }, 4000);
-  //   }
-  // } else {
-  //   setLoadingStartUp(false);
-  // }
-
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       // console.log(user.stsTokenManager.accessToken);
