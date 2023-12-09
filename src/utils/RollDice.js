@@ -92,12 +92,12 @@ export function rollAttack({character, attackId, type}) {
         if (attackType === 'attack-better') {
             return {
                 value: diceOne > diceTwo ? diceOne : diceTwo,
-                expression: `(*${diceOne}, ${diceTwo})`
+                expression: `(*${Math.max(diceOne, diceTwo)}, ${Math.min(diceOne, diceTwo)})`
             }
         } else if (attackType === 'attack-worse') {
             return {
                 value: diceOne < diceTwo ? diceOne : diceTwo,
-                expression: `(*${diceOne}, ${diceTwo})`
+                expression: `(*${Math.min(diceOne, diceTwo)}, ${Math.max(diceOne, diceTwo)})`
             }
         } else {
             return {

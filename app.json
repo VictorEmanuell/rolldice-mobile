@@ -2,7 +2,7 @@
   "expo": {
     "name": "Rolldice",
     "slug": "Rolldice",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -29,7 +29,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "6b7473aa-0e6b-499b-a01f-8f94de9adaed"
+        "projectId": "6a9c316f-9f81-4848-8f53-07aa30f1dc7f"
       }
     }
   }

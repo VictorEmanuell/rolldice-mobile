@@ -34,7 +34,7 @@ export default function Routes() {
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      console.log(user.stsTokenManager.accessToken);
+      // console.log(user.stsTokenManager.accessToken);
 
       dispatch(pullUser({ dispatch }));
       ToastAndroid.show("Entrando...", ToastAndroid.SHORT);
