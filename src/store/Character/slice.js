@@ -13,6 +13,7 @@ export const characterSlice = createSlice({
     name: "character",
     initialState: characterInitialState,
     reducers: {
+        resetCharacter: () => characterInitialState,
         setCharacter(state, action) {
             state.id = action.payload.id;
             state.name = action.payload.name;

@@ -10,6 +10,8 @@ import { styles } from "./styles";
 
 import { CharacterCard } from "../../../../components/CharacterCard";
 import { pullCharacter } from "../../../../store/Character/thunks";
+import { resetUser } from "../../../../store/User/actions";
+import { resetCharacter } from "../../../../store/Character/actions";
 
 export function SelectCharacter({ navigation }) {
   const dispatch = useDispatch();
@@ -26,6 +28,8 @@ export function SelectCharacter({ navigation }) {
     signOut(auth)
       .then(() => {
         loading(dispatch, { active: false, label: "", delay: 2000 });
+        dispatch(resetUser());
+        dispatch(resetCharacter());
         navigation.navigate("Auth");
         navigation.reset({
           index: 0,

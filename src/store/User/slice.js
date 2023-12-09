@@ -6,6 +6,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState: userInitialState,
   reducers: {
+    resetUser: () => userInitialState,
     setUser(state, action) {
       state.id = action.payload.id;
       state.name = action.payload.name;
