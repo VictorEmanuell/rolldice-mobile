@@ -12,7 +12,9 @@ function getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function rollDamage(dices = "0d0") {
+function rollDamage(dices = "1d1") {
+    if (dices === "0") return {total: 0};
+
     let rolled = [];
 
     let dice = dices.split("d");
@@ -133,10 +135,11 @@ export function rollAttack({character, attackId, type}) {
                 {field: '(Dano)', value: `${characterAttack.damage} > ${rolledDamageDice.expression}`},
                 {field: `(Atributo - ${attributeName(characterAttack.damage_attribute)})`, value: attackAttribute ?? 0},
                 {field: '(Dano extra)', value: characterAttack.extra_damage},
-                {
+                
+                rolledDamageExtraDice.total ? {
                     field: '(Dados extra)',
                     value: `${characterAttack.extra_dices} > ${rolledDamageExtraDice.expression}`
-                },
+                } : null
             ]
         }
     }

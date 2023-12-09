@@ -30,7 +30,7 @@ export function BoxResult({title = "ATAQUE", total = 32, totalColor = 'white', r
                 <Text style={{fontFamily: Fonts.bold, fontSize: 45, color: totalColor}}>{total}</Text>
 
                 {rows.map((item, index) => {
-                    return <Row key={index} field={item.field} value={item.value}/>
+                    if (item) return <Row key={index} field={item.field} value={item.value}/>
                 })}
             </View>
         </View>

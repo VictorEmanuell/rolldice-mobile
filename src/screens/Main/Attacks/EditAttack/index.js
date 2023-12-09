@@ -61,9 +61,10 @@ export function EditAttack({modalState, setModalState}) {
     });
 
     const diceRegex = (/[1-9]+d[1-9]+$/);
+    const extraDiceRegex = (/0|[1-9]+d[1-9]+$/);
 
     const handleUpdateAttack = () => {
-        if (!diceRegex.test(extraDices) && !diceRegex.test(extraDices)) {
+        if (!diceRegex.test(damage) && !extraDiceRegex.test(extraDices)) {
             return ToastAndroid.show("Preencha corretamente!", ToastAndroid.SHORT);
         }
 
@@ -181,7 +182,7 @@ export function EditAttack({modalState, setModalState}) {
                                 containerStyle={{width: "100%"}}
                                 value={extraDices}
                                 onChangeText={setExtraDices}
-                                validate={diceRegex.test(extraDices)}
+                                validate={extraDiceRegex.test(extraDices)}
                             />
 
                             <View style={styles.divider}/>
