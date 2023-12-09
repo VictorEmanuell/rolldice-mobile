@@ -1,7 +1,7 @@
 import {USE_SKILL} from "../constants";
 
 export const useSkillName = (id) => {
-    if (![6, 16, 24].includes(id)) {
+    if (![6, 17, 25].includes(id)) {
         return false;
     }
 

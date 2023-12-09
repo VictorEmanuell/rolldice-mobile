@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect,useLayoutEffect, useState, useRef } from "react";
 import { Modal, Text, View } from "react-native";
 import { BlurView } from "expo-blur";
 import LottieView from "lottie-react-native";
@@ -13,10 +13,17 @@ export function Loading() {
   const { active, label } = useSelector((store) => store.loading);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const animationRef = useRef(null);
+
   useEffect(() => {
     if (modalVisible && active) return;
+
     setModalVisible(active);
   }, [active]);
+
+  useLayoutEffect(() => {
+    setTimeout(() => animationRef.current?.play(), 100);
+  });
 
   return (
     <Modal
@@ -38,7 +45,7 @@ export function Loading() {
             height: "100%",
           }}
         >
-          {/*<ActivityIndicator
+          {/* <ActivityIndicator
                         style={{
                             padding: 10,
                             backgroundColor: Colors.primary,
@@ -47,7 +54,7 @@ export function Loading() {
                         }}
                         size="large"
                         color={Colors.lightPurple}
-                    />*/}
+                    /> */}
 
           <View
             style={{
@@ -57,13 +64,15 @@ export function Loading() {
             }}
           >
             <LottieView
+              ref={animationRef}
+              loop
               source={DiceAnimation}
-              autoPlay
               style={{
                 width: 90,
                 height: 90,
                 top: -8,
               }}
+              hardwareAccelerationAndroid={true}
             />
           </View>
 

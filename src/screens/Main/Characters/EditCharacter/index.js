@@ -66,7 +66,7 @@ export function EditCharacter({ navigation, route }) {
       wisdom &&
       charisma
     ) {
-      dispatch(setLoading({ active: true, label: "Enviando dados..." }));
+      loading(dispatch, { active: true, label: "Enviando dados..." });
 
       if (action === "create") {
         await createCharacter({

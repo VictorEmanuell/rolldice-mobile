@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "rolldice",
-    "slug": "rolldice",
-    "version": "1.0.0",
+    "name": "Rolldice",
+    "slug": "Rolldice",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,10 +21,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.victoremanuell01.rolldice"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6b7473aa-0e6b-499b-a01f-8f94de9adaed"
+      }
     }
   }
 }

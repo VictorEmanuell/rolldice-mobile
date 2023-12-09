@@ -24,4 +24,4 @@ export const RANGES = ["Curto", "Medio", "Longo", "Outro"]
 
 export const CRITICALS = ["Nenhum", "Dilacerante", "Lancinante"]
 
-export const USE_SKILL = [{id: 6, name: "Atuação"}, {id: 16, name: "Luta"}, {id: 24, name: "Pontaria"}]
+export const USE_SKILL = [{id: 6, name: "Atuação"}, {id: 17, name: "Luta"}, {id: 25, name: "Pontaria"}]

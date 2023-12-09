@@ -72,14 +72,14 @@ export function rollAttack({character, attackId, type}) {
     const characterAttack = character.attacks.filter(value => value.id === attackId)[0];
     const characterUseSkill = character.skills.filter(value => value.id === characterAttack.use_skill)[0];
     const attackAttribute = character.attributes[attributeKey(characterAttack.damage_attribute)];
-    // console.log(character.attributes);
+    
     const skillTotal = () => {
         if (characterUseSkill.modifier) {
             const skillAttribute = character.attributes[attributeKey(characterUseSkill.modifier?.character_attribute)];
 
-            return (skillAttribute + (characterUseSkill.modifier?.trained ?? 2) + characterUseSkill.modifier?.others);
+            return (skillAttribute + (characterUseSkill.modifier?.trained && 2) + characterUseSkill.modifier?.others + Math.trunc(character.level/2));
         } else {
-            return (character.attributes[attributeKey("DES")]);
+            return (character.attributes[attributeKey("DES")] + Math.trunc(character.level/2));
         }
     }
 
