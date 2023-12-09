@@ -17,7 +17,7 @@ export function SelectCharacter({navigation}) {
 
     useEffect(() => {
         if (characterSelected) {
-            dispatch(pullCharacter(characterSelected, dispatch));
+            dispatch(pullCharacter({characterId: characterSelected, dispatch}));
         }
     }, [characterSelected]);
 
