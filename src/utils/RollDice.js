@@ -44,8 +44,6 @@ function rollDamage(dices = "1d1") {
 function rollCritical(criticalMultiplier, damageDice) {
     let rolled = [];
 
-    let dice = damageDice.split("d");
-
     for (let i = 1; i <= criticalMultiplier; i++) {
         rolled.push(rollDamage(damageDice));
     }
@@ -61,8 +59,6 @@ function rollCritical(criticalMultiplier, damageDice) {
             expression += `${item.expression} + `
         }
     });
-
-    console.log(total, expression);
 
     return {
         total,
@@ -108,9 +104,9 @@ export function rollAttack({character, attackId, type}) {
     }
 
     const rolledAttackDice = attackDice(type);
-    const rolledDamageDice = rolledAttackDice >= characterAttack.critical_value ? rollCritical(characterAttack.critical_multiplier, characterAttack.damage) : rollDamage(characterAttack.damage);
+    const rolledDamageDice = rolledAttackDice.value >= characterAttack.critical_value ? rollCritical(characterAttack.critical_multiplier, characterAttack.damage) : rollDamage(characterAttack.damage);
     const rolledDamageExtraDice = rollDamage(characterAttack.extra_dices);
-
+    
     const attackTotal = (rolledAttackDice.value + skillTotal() + characterAttack.attack_bonus)
     const damageTotal = (rolledDamageDice.total + (attackAttribute ?? 0) + characterAttack.extra_damage + rolledDamageExtraDice.total)
 

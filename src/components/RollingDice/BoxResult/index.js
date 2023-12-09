@@ -47,7 +47,7 @@ function Row({field, value}) {
             borderColor: Colors.primary,
             borderBottomWidth: 1
         }}>
-            <Text style={{fontFamily: Fonts.regular, fontSize: 16, color: 'white', maxWidth: '60%'}}>{value}</Text>
+            <Text style={{fontFamily: Fonts.regular, fontSize: 16, color: 'white', maxWidth: '70%'}}>{value}</Text>
 
             <Text style={{fontFamily: Fonts.regular, fontSize: 16, color: '#ABA9A9'}}>{field}</Text>
         </View>

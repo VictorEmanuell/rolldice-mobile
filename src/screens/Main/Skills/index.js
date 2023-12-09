@@ -118,6 +118,8 @@ export function Skills() {
               renderItem={(props) => (
                 <SkillCard {...props} index={props.index} />
               )}
+              nestedScrollEnabled={true}
+              removeClippedSubviews={true}
             />
           </View>
         </View>
