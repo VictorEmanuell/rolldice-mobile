@@ -26,17 +26,17 @@ import { SkillCard } from "../../../components/SkillCard";
 export function Skills() {
   const { skills } = useSelector((store) => store.character);
 
-  useEffect(() => {
-    setSkillsData(skills);
-  }, [skills]);
-
   // Hooks
   const [skillsData, setSkillsData] = useState(skills);
-
+  
   const [inputFocused, setInputFocused] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [searchResult, setSearchResult] = useState([]);
-
+  
+  useEffect(() => {
+    setSkillsData(skills);
+  }, [skills]);
+  
   // Search skill
 
   const search = new JsSearch.Search("skill_id");

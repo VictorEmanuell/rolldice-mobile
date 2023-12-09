@@ -111,7 +111,7 @@ export function rollAttack({character, attackId, type}) {
     const damageTotal = (rolledDamageDice.total + (attackAttribute ?? 0) + characterAttack.extra_damage + rolledDamageExtraDice.total)
 
     const totalColor = () => {
-        if (rolledAttackDice.value === 20) return colors.green;
+        if (rolledAttackDice.value >= characterAttack.critical_value) return colors.green;
         if (rolledAttackDice.value === 1) return colors.red;
     }
 

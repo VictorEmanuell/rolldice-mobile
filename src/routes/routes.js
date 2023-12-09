@@ -40,16 +40,17 @@ export default function Routes() {
       ToastAndroid.show("Entrando...", ToastAndroid.SHORT);
 
       if (
-        navigationRef.current &&
-        navigationRef.current.getCurrentRoute().name &&
+        navigationRef.current?.getCurrentRoute().name &&
         navigationRef.current.getCurrentRoute().name === "Start"
       ) {
         setTimeout(() => setLoadingStartUp(false), 2000);
-        navigationRef.current.navigate("Main");
-        navigationRef.current.reset({
-          index: 0,
-          routes: [{ name: "Main" }],
-        });
+        setTimeout(() => {
+          navigationRef.current.navigate("Main");
+          navigationRef.current.reset({
+            index: 0,
+            routes: [{ name: "Main" }],
+          });
+        }, 4000);
       }
     } else {
       setLoadingStartUp(false);

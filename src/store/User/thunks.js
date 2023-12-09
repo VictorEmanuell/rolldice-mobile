@@ -8,10 +8,10 @@ export const pullUser = createAsyncThunk("user/pull", async ({ dispatch }) => {
 
   try {
     const { userBasicInfo, characters } = await getUserInfo();
-    loading(dispatch, { active: false, label: "", delay: 2000 });
+    loading(dispatch, { active: false, label: "", delay: 4000 });
 
     return { ...userBasicInfo, characters };
   } catch {
-    loading(dispatch, { active: false, label: "", delay: 2000 });
+    loading(dispatch, { active: false, label: "", delay: 4000 });
   }
 });
