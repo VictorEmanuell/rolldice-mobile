@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Picker from "react-native-wheel-picker-expo";
+import * as Haptics from 'expo-haptics';
 import Fonts from "../../assets/Fonts";
 import Colors from "../../assets/Colors";
 
@@ -86,7 +87,10 @@ export function WheelPicker({ data, picker, setPicker }) {
                 borderBottomLeftRadius: 14,
                 borderBottomRightRadius: 14,
               }}
-              onPress={() => setPicker({ value: valuePicker, visible: false })}
+              onPress={() => {
+                Haptics.impactAsync("light");
+                setPicker({ value: valuePicker, visible: false })
+              }}
             >
               <Text
                 style={{

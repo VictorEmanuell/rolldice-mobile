@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import {useDispatch, useSelector} from "react-redux";
+import * as Haptics from 'expo-haptics';
 
 import {styles} from "./styles";
 
@@ -318,7 +319,10 @@ export function EditAttack({modalState, setModalState}) {
                             <TouchableOpacity
                                 activeOpacity={0.88}
                                 style={styles.saveButton}
-                                onPress={handleUpdateAttack}
+                                onPress={()=>{
+                                    Haptics.notificationAsync("success");
+                                    handleUpdateAttack();
+                                }}
                             >
                                 <ImageView image={Save} width={20}/>
                             </TouchableOpacity>

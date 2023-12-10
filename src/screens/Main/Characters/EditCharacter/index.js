@@ -18,6 +18,7 @@ import {
 import { loading } from "../../../../utils/Loading";
 import { useDispatch } from "react-redux";
 import { setUserCharacterSelected } from "../../../../store/User/actions";
+import * as Haptics from "expo-haptics";
 
 import { styles } from "./styles";
 
@@ -274,7 +275,10 @@ export function EditCharacter({ navigation, route }) {
                   backgroundColor: action === "create" ? "#606060" : Colors.red,
                 },
               ]}
-              onPress={handleDeleteCharacter}
+              onPress={() => {
+                Haptics.impactAsync("heavy");
+                handleDeleteCharacter();
+              }}
             >
               <ImageView
                 image={Delete}
@@ -286,7 +290,10 @@ export function EditCharacter({ navigation, route }) {
             <TouchableOpacity
               activeOpacity={0.9}
               style={[styles.buttonUpdate, { backgroundColor: Colors.green }]}
-              onPress={handleUpdateCharacter}
+              onPress={() => {
+                Haptics.notificationAsync("success");
+                handleUpdateCharacter();
+              }}
             >
               <ImageView image={Save} width={20} />
             </TouchableOpacity>

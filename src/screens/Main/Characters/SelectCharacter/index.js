@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../../../../services/firebase";
 import { signOut } from "firebase/auth";
 import { loading } from "../../../../utils/Loading";
+import * as Haptics from "expo-haptics";
 
 import { styles } from "./styles";
 
@@ -60,9 +61,10 @@ export function SelectCharacter({ navigation }) {
       <TouchableOpacity
         activeOpacity={0.98}
         style={styles.buttonCreateCharacter}
-        onPress={() =>
-          navigation.navigate("EditCharacter", { action: "create" })
-        }
+        onPress={() => {
+          Haptics.impactAsync("light");
+          navigation.navigate("EditCharacter", { action: "create" });
+        }}
       >
         <Text style={styles.textCreateCharacter}>CRIAR NOVO PERSONAGEM</Text>
       </TouchableOpacity>
@@ -70,7 +72,10 @@ export function SelectCharacter({ navigation }) {
       <TouchableOpacity
         activeOpacity={0.98}
         style={styles.buttonLogout}
-        onPress={handleSignOut}
+        onPress={() => {
+          Haptics.impactAsync("heavy");
+          handleSignOut();
+        }}
       >
         <Text style={styles.textLogout}>SAIR</Text>
       </TouchableOpacity>

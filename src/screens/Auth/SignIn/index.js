@@ -22,6 +22,7 @@ import {
 import { auth } from "../../../services/firebase";
 import { loading } from "../../../utils/Loading";
 import { emailValidate } from "../../../utils/Validators";
+import * as Haptics from 'expo-haptics';
 
 import { styles } from "./styles";
 
@@ -244,7 +245,10 @@ export function SignIn({ navigation }) {
             >
               <Button
                 label="ENTRAR"
-                onPress={handleAuthenticate}
+                onPress={()=>{
+                  Haptics.notificationAsync("success");
+                  handleAuthenticate();
+                }}
                 width={"100%"}
               />
             </Animated.View>

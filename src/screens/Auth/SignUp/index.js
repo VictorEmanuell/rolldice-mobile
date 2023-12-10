@@ -22,6 +22,7 @@ import {
   emailValidate,
   passwordValidate,
 } from "../../../utils/Validators";
+import * as Haptics from "expo-haptics";
 
 import { styles } from "./styles";
 
@@ -236,7 +237,10 @@ export function SignUp({ navigation }) {
                 >
                   <Button
                     label="ENTRAR"
-                    onPress={handleAuthenticate}
+                    onPress={() => {
+                      Haptics.notificationAsync("success");
+                      handleAuthenticate();
+                    }}
                     width={"100%"}
                   />
                 </Animated.View>

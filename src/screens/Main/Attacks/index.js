@@ -3,6 +3,7 @@ import { Dimensions, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Carousel from "react-native-reanimated-carousel";
 import { useDispatch, useSelector } from "react-redux";
+import * as Haptics from "expo-haptics";
 
 import { styles } from "./styles";
 
@@ -70,9 +71,10 @@ export function Attacks({ navigation }) {
           <TouchableOpacity
             activeOpacity={0.88}
             style={styles.buttonCreateAttack}
-            onPress={() =>
+            onPress={() => {
+              Haptics.impactAsync("light");
               setModalEditState({ visible: true, action: "create" })
-            }
+            }}
           >
             <Text style={styles.textCreateAttack}>+</Text>
           </TouchableOpacity>

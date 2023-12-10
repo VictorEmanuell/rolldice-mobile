@@ -1,6 +1,7 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserCharacterSelected } from "../../store/User/actions";
+import * as Haptics from "expo-haptics";
 
 import Fonts from "../../assets/Fonts";
 import Colors from "../../assets/Colors";
@@ -50,7 +51,10 @@ export function CharacterCard({ item, navigation }) {
       <TouchableOpacity
         activeOpacity={0.9}
         style={{ backgroundColor: Colors.secondary, width: "60%", padding: 20 }}
-        onPress={handleSelectCharacter}
+        onPress={() => {
+          Haptics.impactAsync("medium");
+          handleSelectCharacter();
+        }}
       >
         <Text
           style={{ fontFamily: Fonts.regular, fontSize: 15, color: "white" }}
@@ -70,12 +74,13 @@ export function CharacterCard({ item, navigation }) {
           borderBottomRightRadius: 5,
           width: "20%",
         }}
-        onPress={() =>
+        onPress={() => {
+          Haptics.impactAsync("light");
           navigation.navigate("EditCharacter", {
             action: "edit",
             character: item,
-          })
-        }
+          });
+        }}
       >
         <ImageView image={Edit} width={"100%"} />
       </TouchableOpacity>

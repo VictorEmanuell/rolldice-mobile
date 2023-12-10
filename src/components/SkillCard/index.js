@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loading } from "../../utils/Loading";
 import { updateCharacterSkill } from "../../store/Character/thunks";
 import { setRolling } from "../../store/RollingDice/actions";
+import * as Haptics from 'expo-haptics';
 
 import Colors from "../../assets/Colors";
 
@@ -82,6 +83,7 @@ export function SkillCard({ item: skill, index }) {
   };
 
   const handleSaveChanges = () => {
+    Haptics.impactAsync("light");
     const data = {
       trained: trained,
       character_attribute: attriburePicker.value,
@@ -133,14 +135,15 @@ export function SkillCard({ item: skill, index }) {
 
         <TouchableOpacity
           activeOpacity={0.88}
-          onPress={() =>
+          onPress={() => {
+            Haptics.notificationAsync("warning");
             dispatch(
               setRolling({
                 rolling: true,
                 payload: { type: "skill", skillId: skill.id },
               })
             )
-          }
+          }}
           style={styles.diceButton}
         >
           <ImageView image={Dice} width={24} />

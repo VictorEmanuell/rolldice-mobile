@@ -15,6 +15,7 @@ import { deleteDefense } from "../../../services/api/Defense";
 import { updateCharacterDefense } from "../../../store/Character/thunks";
 import { attributeKey } from "../../../utils/Attributes";
 import { resetDefense } from "../../../store/Character/actions";
+import * as Haptics from 'expo-haptics';
 
 import Colors from "../../../assets/Colors";
 
@@ -385,7 +386,10 @@ export function Armor() {
               <TouchableOpacity
                 activeOpacity={0.9}
                 style={[styles.buttonUpdate, { backgroundColor: Colors.red }]}
-                onPress={handleDeleteDefense}
+                onPress={()=>{
+                  Haptics.impactAsync("heavy");
+                  handleDeleteDefense();
+                }}
               >
                 <ImageView image={Delete} width={20} />
               </TouchableOpacity>
@@ -393,7 +397,10 @@ export function Armor() {
               <TouchableOpacity
                 activeOpacity={0.9}
                 style={[styles.buttonUpdate, { backgroundColor: Colors.green }]}
-                onPress={handleUpdateDefense}
+                onPress={()=>{
+                  Haptics.notificationAsync("success");
+                  handleUpdateDefense();
+                }}
               >
                 <ImageView image={Save} width={20} />
               </TouchableOpacity>

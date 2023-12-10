@@ -1,6 +1,7 @@
 import { ToastAndroid } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useSelector } from "react-redux";
+import * as Haptics from 'expo-haptics';
 
 import Colors from "../../../assets/Colors";
 
@@ -65,6 +66,7 @@ export function Main() {
       detachInactiveScreens={false}
       screenListeners={{
         tabPress: (e) => {
+          Haptics.impactAsync("light");
           if (!characterSelected) {
             e.preventDefault();
             ToastAndroid.show("Selecione um personagem!", ToastAndroid.SHORT);

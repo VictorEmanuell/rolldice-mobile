@@ -2,6 +2,7 @@ import React from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Animated from "react-native-reanimated";
+import * as Haptics from "expo-haptics";
 
 import { styles } from "./styles";
 
@@ -32,13 +33,19 @@ export function Start({ navigation }) {
         >
           <Button
             label="ENTRAR"
-            onPress={() => navigation.navigate("SignIn")}
+            onPress={() => {
+              Haptics.impactAsync("medium");
+              navigation.navigate("SignIn");
+            }}
             width={"100%"}
           />
         </Animated.View>
         <Button
           label="CADASTRE-SE"
-          onPress={() => navigation.navigate("SignUp")}
+          onPress={() => {
+            Haptics.impactAsync("medium");
+            navigation.navigate("SignUp");
+          }}
         />
       </View>
 
