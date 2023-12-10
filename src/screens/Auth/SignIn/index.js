@@ -101,6 +101,8 @@ export function SignIn({ navigation }) {
           if (error.code === "auth/invalid-login-credentials") {
             ToastAndroid.show("Email/senha incorretos!", ToastAndroid.LONG);
           }
+
+          loading(dispatch, { active: false, label: "" });
         });
     } else {
       ToastAndroid.show("Preencha os campos corretamente!", ToastAndroid.LONG);
